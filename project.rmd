@@ -1,0 +1,25 @@
+---
+title: "Final Project Proposal"
+author: "Alicia Hauglie, Samuel Cole, Saicharan Gugulothu, Tyler Kruzan"
+date: "4/3/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**Team 4:**
+
+Samuel Cole 
+
+Alicia Hauglie (project coordinator)
+
+Saicharan Gugulothu
+
+Tyler Kruzan
+
+
+**Our data source:**
+
+
