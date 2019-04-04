@@ -22,4 +22,27 @@ Tyler Kruzan
 
 **Our data source:**
 
+http://mlb.mlb.com/stats/sortable.jsp#elem=%5Bobject+Object%5D&tab_level=child&click_text=Sortable+Player+hitting&game_type='R'&season=2019&season_type=ALL&league_code='MLB'&sectionType=sp&statType=hitting&page=1&ts=1554392691353&split=&playerType=ALL&timeframe=&active_sw='Y'
 
+
+**About this dataset**
+
+**MLB ACTIVE PLAYER HITTING STATS**
+
+This dataset has hitting stats for all active players that have at least 3.1 plate appearances per team game played. These are the players that are starting almost every game for each team and getting the most at-bats in the league. So basically, these are the starting/regular players of each of the 30 MLB teams. In this data you can see player positions, batting averages, RBIs, and home runs, as well as many other stats for each player. 
+
+
+**Exploratory Analysis Plan**
+
+What position has the highest hitting stats?
+
+Compare the National League versus the American League in hitting stats.
+
+Does more homeruns mean less Batting average?
+
+Does average number of pitches in an at bat correlate with batting average?
+  Does it correlate with homeruns?
+
+Who is getting intentionally walked? Home-run hitters or high average hitters?
+
+Calculate BABIP (batting average of balls in play)
