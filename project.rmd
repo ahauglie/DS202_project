@@ -1,6 +1,6 @@
 ---
 title: "Final Project Proposal"
-author: "Alicia Hauglie, Samuel Cole, Saicharan Gugulothu, Tyler Kruzan"
+author: "Alicia Hauglie, Samuel Cole, Saicharan Gugulothu"
 date: "4/3/2019"
 output: html_document
 ---
