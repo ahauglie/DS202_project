@@ -22,13 +22,19 @@ Visualize the Data
 ```{r}
 library(ggplot2)
 
-ggplot(PlayerData, aes(x = AVG )) + geom_histogram(binwidth = .002) + facet_wrap(~Pos)
+ggplot(PlayerData, aes(x = AVG )) + geom_histogram(binwidth = .002)
 ggplot(PlayerData, aes(x = AVG, y = HR)) + geom_point()  #LINE OF BEST FIT
 ggplot(PlayerData, aes(x = AVG, y = RBI)) + geom_point() # LINE OF BEST FIT
 ggplot(PlayerData, aes(x = AVG, y = G)) + geom_point() # LINE OF BEST FIT
 ggplot(PlayerData, aes(x = SLG, y = AVG)) + geom_point() #LINE OF BEST FIT
 ggplot(PlayerData, aes(x = RBI, y = OBP)) + geom_point() # LINE OF BEST FIT
 #This one is good^
-ggplot(PlayerData, aes(x = RBI, y = XBH)) + geom_point() 
+ggplot(PlayerData, aes(x = RBI, y = XBH)) + geom_point()
+
 #VERY VERY STRONG^
+ggplot(PlayerData, aes(x = G, y = XBH)) + geom_point() 
+ggplot(PlayerData, aes(x = AVG, y = RK)) + geom_point()
+
+
 ```
+ 
