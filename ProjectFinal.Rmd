@@ -18,4 +18,9 @@ head(NationalLeague)
 AmericanLeague <- read_excel("AmericanLEague.xlsx")
 head(AmericanLeague)
 ```
+Visualize the Data
+```{r}
+library(ggplot2)
 
+ggplot(PlayerData, aes(x = AVG )) + geom_histogram(binwidth = .002) + facet_wrap(~Pos)
+```
