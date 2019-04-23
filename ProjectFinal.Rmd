@@ -11,4 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 library("readxl")
 PlayerData <- read_excel("PlayerData.xlsx")
+NationalLeague<- read_excel("NationalLeague.xlsx")
+AmericanLeague <- read_excel("AmericanLEague.xlsx")
 ```
