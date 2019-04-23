@@ -22,7 +22,8 @@ Visualize the Data
 ```{r}
 library(ggplot2)
 
-ggplot(PlayerData, aes(x = AVG )) + geom_histogram(binwidth = .002)
+ggplot(PlayerData, aes(x = OBP)) + geom_histogram(binwidth = .004)
+
 ggplot(PlayerData, aes(x = AVG, y = HR)) + geom_point()  #LINE OF BEST FIT
 ggplot(PlayerData, aes(x = AVG, y = RBI)) + geom_point() # LINE OF BEST FIT
 ggplot(PlayerData, aes(x = AVG, y = G)) + geom_point() # LINE OF BEST FIT
@@ -32,8 +33,21 @@ ggplot(PlayerData, aes(x = RBI, y = OBP)) + geom_point() # LINE OF BEST FIT
 ggplot(PlayerData, aes(x = RBI, y = XBH)) + geom_point()
 
 #VERY VERY STRONG^
-ggplot(PlayerData, aes(x = G, y = XBH)) + geom_point() 
+ggplot(PlayerData, aes(x = G, y = SLG)) + geom_point() 
 ggplot(PlayerData, aes(x = AVG, y = RK)) + geom_point()
+ggplot(PlayerData, aes(x = IBB, y = HR)) + geom_point()
+
+
+PlayerData$BABIP = (PlayerData$H - PlayerData$HR) / (PlayerData$AB - PlayerData$SO - PlayerData$HR + PlayerData$SF)  #NEW STAT Batting average per balls in play
+PlayerData$PPA = (PlayerData$NP/PlayerData$PA)  #NEW STAT pitches per plate at bat
+PlayerData$PPAB = (PlayerData$NP/PlayerData$AB) #NEW STAT Pitches per at bat
+PlayerData$HRPG = (PlayerData$HR/PlayerData$G)  #NEW STAT Homeruns per game
+
+ggplot(PlayerData, aes(x = PPA, y = AVG)) + geom_point() #LINE OF BEST FIT
+ggplot(PlayerData, aes(x = PPA, y = OBP)) + geom_point() #LINE OF BEST FIT
+ggplot(PlayerData, aes(x = PPA, y = HRPG)) + geom_point() #LINE OF BEST FIT
+ggplot(PlayerData, aes(x = IBB, y = HRPG)) + geom_point() #LINE OF BEST FIT
+ggplot(PlayerData, aes(x = IBB, y = AVG)) + geom_point()
 
 
 ```
