@@ -6,11 +6,15 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
  **Importing the Data**
  
 ```{r}
 library("readxl")
 PlayerData <- read_excel("PlayerData.xlsx")
+head(PlayerData)
 NationalLeague<- read_excel("NationalLeague.xlsx")
+head(NationalLeague)
 AmericanLeague <- read_excel("AmericanLEague.xlsx")
+head(AmericanLeague)
 ```
