@@ -11,13 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
  
 ```{r}
 library("readxl")
-#PlayerData <- read_excel("PlayerData.xlsx")
-#head(PlayerData)
-#NationalLeague<- read_excel("NationalLeague.xlsx")
-#head(NationalLeague)
-#AmericanLeague <- read_excel("AmericanLEague.xlsx")
-#head(AmericanLeague)
 dat <- read_excel("ALL.xlsx")
+dat <- select(dat, -Player2, -Player3)
 ```
 Create Variables we need
 ```{r}
@@ -42,11 +37,32 @@ Visualize the Data
 library(ggplot2)
 
 ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
+
 ggplot(dat, aes(x = OPS)) + geom_histogram(binwidth = .005,color="Black", fill="light green") + xlab("On-Base + Slugging Percentage") + ggtitle("Histogram of OPS") + ylab("Count")
 
 
-ggplot(dat, aes(x = RBIAB, y = OBP)) + geom_point() # LINE OF BEST FIT
+ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point() + geom_smooth(method='lm',formula=y~x)## R_SQUARED
+ggplot(dat, aes(x = HRAB, y = NPPA)) + geom_point() + geom_smooth(method='lm',formula=y~x) ## R_SQUARED
+ggplot(dat, aes(x = AVG, y = NPAB)) + geom_smooth(method='lm',formula=fo) + geom_point()## R_SQUARED
+```
+Which position has the best batting average?
+```{r}
+dat2 <- dat
+dat2%>%
+  select(Pos, AVG) %>%
+  mutate(AVG = ifelse(AVG == -9999, NA, AVG)) %>%
+  group_by(Pos) %>%
+  mutate(MEANAVG = mean(AVG, na.rm = T)) -> dat2
+ggplot(dat2, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="goldenrod2") + xlab("Batting Average") + ggtitle("Histogram of Batting Average by Position") + ylab("Count") + facet_wrap(~Pos) + geom_vline(aes(xintercept = MEANAVG))
 
+dat3 <- select(dat2, -AVG)
+dat3 <- distinct(dat3)  #ROUND TO 3 digits
 
+head(dat3, 10)
+# WOW, This makes no sense, as the lowest batting average on the field is the DH and the Right fielder
+```
+Following Albert Pujols through his career 
+```{r}
+Albert <- dat[dat$Player == 'Pujols,A',]
 ```
  
