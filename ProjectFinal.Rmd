@@ -71,23 +71,24 @@ Albert <- dat[grepl("Pujols,A", dat$Player),]
 ggplot(Albert, aes(x = Year)) +
   geom_line(aes( y = AVG), color = "blue") +
   geom_line(aes( y = SLG), color = "red") + 
-  geom_line(aes( y = OPS), color = "purple") + 
-  geom_line(aes( y = HRAB), color = "red") +
+  geom_line(aes( y = HRAB), color = "purple") + 
+  geom_line(aes( y = RBIAB), color = "Orange") +
   ylab("Percentages") + 
   xlab("Year") + 
-  ggtitle("Albert Pujols's Career mapped by Year")
+  ggtitle("Albert Pujols's Career mapped by Year") +
+  geom_vline(xintercept = 2010, color = "Red")
 
 
 Trout <- dat[grepl("Trout,M", dat$Player),]
 
 ggplot(Trout, aes(x = Year)) +
   geom_line(aes( y = AVG), color = "blue") +
-  geom_line(aes( y = SLG), color = "red") + 
-  geom_line(aes( y = OPS), color = "purple") + 
-  geom_line(aes( y = HRAB), color = "red") +
-  ylab("Percentages") + 
+  geom_line(aes( y = BABIP), color = "red") + 
+  geom_line(aes( y = HRAB), color = "purple") + 
+  geom_line(aes( y = RBIAB), color = "Orange") +
+  ylab("Averages") + 
   xlab("Year") + 
-  ggtitle("Mike Trout's Career mapped by Year")
+  ggtitle("Mike Trout's Career mapped by Year") 
 
 ```
 Do Homerun hitters have higher Strike Out percentages?
@@ -114,7 +115,7 @@ ggplot(dat, aes(x = AVG, y = NPAB)) + geom_smooth(method='lm') + geom_point() + 
 ggplot(dat, aes(x = HRAB, y = NPAB)) + geom_smooth(method='lm') + geom_point() + xlab("Average Homeruns in an at Bat") + ggtitle("Relationship Between Average Number of Pitches in an at Bat to Batting Average") + ylab("Average Number of Pitches During an at Bat")## R_SQUARED
 ```
 
-Distribution of BABIP with Buter Posey Highlighted
+Distribution of BABIP with Buster Posey Highlighted
 
 ```{r}
 Posey <- dat[grepl("Posey,B", dat$Player),]
