@@ -97,19 +97,23 @@ Distribution of BABIP with Buter Posey Highlighted
 ggplot(dat, aes(x = BABIP)) + geom_histogram()
 ```
 
-Which teams have the most Homeruns hit?
+Which teams hit the most homeruns?
 ```{r}
 dat3 <- dat
+
+
 dat3%>%
-  select(Team, HR) %>%
-  mutate(HR = ifelse(HR == -9999, NA, HR)) %>%
+  select(Team, HRAB) %>%
+  mutate(HRAB = ifelse(HRAB == -9999, NA, HRAB)) %>%
   group_by(Team) %>%
-  mutate(SumHR = sum(HR, na.rm = T)) -> dat3
+  mutate(MeanHR = mean(HRAB, na.rm = T)) -> dat3
 
-dat4 <- select(dat3, -HR)
+dat4 <- select(dat3, -HRAB)
 dat4 <- distinct(dat4)  #ROUND TO 3 digits
-head(dat3, 10)
+head(dat4, 10)
 
-dat4$Team <- as.factor(dat4$Team)
-ggplot(dat4, aes(x = `SumHR`)) + geom_bar()
+dat4 <- dat4[order(dat4$MeanHR, decreasing = TRUE),] 
+
+head(dat4, 5)
+
 ```
