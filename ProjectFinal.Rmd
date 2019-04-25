@@ -92,7 +92,7 @@ a <- ggplot(Albert, aes(x = Year)) +
 
 Trout <- dat[grepl("Trout,M", dat$Player),]
 
-ggplot(Trout, aes(x = Year)) +
+b <- ggplot(Trout, aes(x = Year)) +
   geom_line(aes( y = AVG), color = "blue") +
   geom_line(aes( y = BABIP), color = "red") + 
   geom_line(aes( y = HRAB), color = "purple") + 
@@ -109,7 +109,7 @@ ggplot(Trout, aes(x = Year)) +
   ylab("Totals By Category") + 
   xlab("Year") + 
   ggtitle("Mike Trout's Career mapped by Year") +
-  geom_vline(xintercept = 2018, color = "Black")
+  geom_vline(xintercept = 2017, color = "Black")
 
 ```
 Do Homerun hitters have higher Strike Out percentages?
