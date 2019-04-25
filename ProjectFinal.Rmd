@@ -23,13 +23,15 @@ Create Variables we need
   ##Runs batted in per at bat^
   dat <- mutate(dat, HRAB = HR / AB)  ##Round these to .000 decimals if possible
   ##Home Runs per at bat^
-  dat <- mutate(dat, BABIP = H - HR / AB - SO - HR + SF) ##Round these to .000 decimals if possible
+  dat <- mutate(dat, BABIP = (H - HR) / (AB - SO - HR + SF)) ##Round these to .000 decimals if possible
   ##Batting Average on Balls in Play^
   dat$NP <- as.numeric(dat$NP) ##Cleaning the Data, changing column from character to Number
-  dat <- mutate(dat, NPPA = NP / PA)
+  dat <- mutate(dat, NPPA = NP / PA) #ROUND TO 3 digits
   ##Number of pitches per plate appearance^
-  dat <- mutate(dat, NPAB = NP / AB)
+  dat <- mutate(dat, NPAB = NP / AB) #ROUND TO 3 digits
   ##Number of Pitches per At bat per at bat^
+  dat <- mutate(dat, SOAB = SO / AB) #ROUND TO 3 digits
+   ##Number of StrikeOuts per at bat^
 ```
 
 
@@ -45,6 +47,7 @@ ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point(color = 'coral2') + geom_smoot
 
 ggplot(dat, aes(x = HRAB, y = NPPA)) + geom_point() + geom_smooth(method='lm',formula=y~x) ## R_SQUARED
 ```
+
 Which position has the best batting average?
 ```{r}
 dat2 <- dat
@@ -66,26 +69,47 @@ Following Albert Pujols through his career
 Albert <- dat[grepl("Pujols,A", dat$Player),]
 
 ```
-
-
-
-
-
-
-Does more HRs = less batting AVG?
-
+Do Homerun hitters have higher Strike Out percentages?
 ```{r}
+ggplot(dat, aes(x = HRAB, y = SOAB)) + geom_smooth(method='lm') + geom_point() + xlab("Home Runs Per at Bat") + ggtitle("Homerun Hitters and Strike Out Percentages") + ylab("Strike outs Per at Bat")## R_SQUARED
 
+```
+
+Giants data set
+```{r}
+Giants <- dat[grepl("SF", dat$Team),]
 ```
 
 Does Avg # of pitches in an at bat correlate with batting Avg? Does it correlate with HRs?
 
 ```{r}
+#This one proves the Null Hypothesis, that there is no Correlation
 ggplot(dat, aes(x = AVG, y = NPAB)) + geom_smooth(method='lm') + geom_point() + xlab("Batting Average") + ggtitle("Relationship Between Average Number of Pitches in an at Bat to Batting Average") + ylab("Average Number of Pitches During an at Bat")## R_SQUARED
+
+
+#This one has a slight positive correlation
+ggplot(dat, aes(x = HRAB, y = NPAB)) + geom_smooth(method='lm') + geom_point() + xlab("Average Homeruns in an at Bat") + ggtitle("Relationship Between Average Number of Pitches in an at Bat to Batting Average") + ylab("Average Number of Pitches During an at Bat")## R_SQUARED
 ```
 
-Who is getting intentionally walked? HR hitters or high avg hitters?
+Distribution of BABIP with Buter Posey Highlighted
 
 ```{r}
+ggplot(dat, aes(x = BABIP)) + geom_histogram()
+```
 
+Which teams have the most Homeruns hit?
+```{r}
+dat3 <- dat
+dat3%>%
+  select(Team, HR) %>%
+  mutate(HR = ifelse(HR == -9999, NA, HR)) %>%
+  group_by(Team) %>%
+  mutate(SumHR = sum(HR, na.rm = T)) -> dat3
+
+dat4 <- select(dat3, -HR)
+dat4 <- distinct(dat4)  #ROUND TO 3 digits
+head(dat3, 10)
+
+dat4$Team <- as.factor(dat4$Team)
+ggplot(dat4, aes(x = `SumHR`)) + geom_bar()
 ```
