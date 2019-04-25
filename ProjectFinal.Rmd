@@ -47,6 +47,9 @@ ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point(color = 'coral2') + geom_smoot
 
 
 ggplot(dat, aes(x = HRAB, y = NPPA)) + geom_point() + geom_smooth(method='lm',formula=y~x) ## R_SQUARED
+
+correlationMatrix3 <- select(dat, RBI, SLG)
+cor(correlationMatrix3)
 ```
 
 Which position has the best batting average?
@@ -65,6 +68,21 @@ dat3 <- distinct(dat3)  #ROUND TO 3 digits
 head(dat3, 10)
 # WOW, This makes no sense, as the lowest batting average on the field is the DH and the Right fielder
 ```
+Teams batting average?
+```{r}
+dat5 <- dat
+dat5%>%
+  select(Team, AVG) %>%
+  mutate(AVG = ifelse(AVG == -9999, NA, AVG)) %>%
+  group_by(Team) %>%
+  mutate(MEANAVG = mean(AVG, na.rm = T)) -> dat5
+
+dat6 <- select(dat5, -AVG)
+dat6 <- distinct(dat6)  #ROUND TO 3 digits
+
+head(dat6, 10)
+```
+
 Following Albert Pujols through his career 
 ```{r}
 Albert <- dat[grepl("Pujols,A", dat$Player),]
@@ -114,6 +132,9 @@ ggplot(Trout, aes(x = Year)) +
 ```
 Do Homerun hitters have higher Strike Out percentages?
 ```{r}
+correlationMatrix2 <- select(dat, HRAB, SOAB)
+cor(correlationMatrix2)
+
 ggplot(dat, aes(x = HRAB, y = SOAB)) + geom_smooth(method='lm') + geom_point() + xlab("Home Runs Per at Bat") + ggtitle("Homerun Hitters and Strike Out Percentages") + ylab("Strike outs Per at Bat")## R_SQUARED
 
 ```
