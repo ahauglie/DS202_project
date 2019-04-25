@@ -206,7 +206,20 @@ Chloropleth map
 ```{r}
 Stadiums <- read_excel("StadiumLocations.xlsx")
 
+View(Stadiums)
+
 states <- map_data("state")
 ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))
-ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=LONGITUD, y=LATITUDE), data=acc %>% filter(LONGITUD <0 & LONGITUD> -130), size=0.02, color="white")
+ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), size=2, color="red") 
+#Change this to look better, put labels, put colors, 
+#In the excel file, add averages for each team, make sure team names are able so we can display them
+
+
+teamdat <- dat
+teamdat%>%
+  select(Team, AVG) %>%
+  mutate(AVG = ifelse(AVG == -9999, NA, AVG)) %>%
+  group_by(Team) %>%
+  mutate(MEANAVG = mean(AVG, na.rm = T)) -> teamdat
+ggplot(dat2, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="goldenrod2") + xlab("Batting Average") + ggtitle("Histogram of Batting Average by Position") + ylab("Count") + facet_wrap(~Pos) + geom_vline(aes(xintercept = MEANAVG))
 ```
