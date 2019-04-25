@@ -43,7 +43,7 @@ ggplot(dat, aes(x = OPS)) + geom_histogram(binwidth = .005,color="Black", fill="
 
 ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point() + geom_smooth(method='lm',formula=y~x)## R_SQUARED
 ggplot(dat, aes(x = HRAB, y = NPPA)) + geom_point() + geom_smooth(method='lm',formula=y~x) ## R_SQUARED
-ggplot(dat, aes(x = AVG, y = NPAB)) + geom_smooth(method='lm',formula=fo) + geom_point()## R_SQUARED
+ggplot(dat, aes(x = AVG, y = NPAB)) + geom_smooth(method='lm') + geom_point()## R_SQUARED
 ```
 Which position has the best batting average?
 ```{r}
@@ -65,4 +65,31 @@ Following Albert Pujols through his career
 ```{r}
 Albert <- dat[dat$Player == 'Pujols,A',]
 ```
- 
+
+
+
+
+
+Compare the NL vs AL in hitting stats
+```{r}
+
+```
+
+Does more HRs = less batting AVG?
+
+```{r}
+
+```
+
+Does Avg # of pitches in an at bat correlate with batting Avg? Does it correlate with HRs?
+
+```{r}
+
+```
+
+Who is getting intentionally walked? HR hitters or high avg hitters?
+
+```{r}
+```
+
+BABIP calculation already done
