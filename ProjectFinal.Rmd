@@ -80,12 +80,11 @@ Does more HRs = less batting AVG?
 Does Avg # of pitches in an at bat correlate with batting Avg? Does it correlate with HRs?
 
 ```{r}
-ggplot(dat, aes(x = AVG, y = NPAB)) + geom_smooth(method='lm') + geom_point()## R_SQUARED
+ggplot(dat, aes(x = AVG, y = NPAB)) + geom_smooth(method='lm') + geom_point() + xlab("Batting Average") + ggtitle("Relationship Between Average Number of Pitches in an at Bat to Batting Average") + ylab("Average Number of Pitches During an at Bat")## R_SQUARED
 ```
 
 Who is getting intentionally walked? HR hitters or high avg hitters?
 
 ```{r}
-```
 
-BABIP calculation already done
+```
