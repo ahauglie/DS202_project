@@ -14,6 +14,7 @@ library("readxl")
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
+library(plotly)
 dat <- read_excel("ALL.xlsx")
 dat <- select(dat, -Player2, -Player3)
 ```
@@ -78,7 +79,7 @@ ggplot(Albert, aes(x = Year)) +
   ggtitle("Albert Pujols's Career mapped by Year") +
   geom_vline(xintercept = 2010, color = "Red")
 
-ggplot(Albert, aes(x = Year)) +
+a <- ggplot(Albert, aes(x = Year)) +
   geom_line(aes( y = HR), color = "blue") +
   geom_line(aes( y = SO), color = "red") + 
   geom_line(aes( y = BB), color = "purple") + 
@@ -86,8 +87,8 @@ ggplot(Albert, aes(x = Year)) +
   ylab("Totals By Category") + 
   xlab("Year") + 
   ggtitle("Albert Pujols's Career mapped by Year") +
-  geom_vline(xintercept = 2010, color = "Red")
-
+  geom_vline(xintercept = 2010, color = "Black")
+ ggplotly(a)
 
 Trout <- dat[grepl("Trout,M", dat$Player),]
 
@@ -108,7 +109,7 @@ ggplot(Trout, aes(x = Year)) +
   ylab("Totals By Category") + 
   xlab("Year") + 
   ggtitle("Mike Trout's Career mapped by Year") +
-  geom_vline(xintercept = 2018, color = "Red")
+  geom_vline(xintercept = 2018, color = "Black")
 
 ```
 Do Homerun hitters have higher Strike Out percentages?
