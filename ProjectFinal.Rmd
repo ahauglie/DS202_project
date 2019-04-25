@@ -73,7 +73,17 @@ ggplot(Albert, aes(x = Year)) +
   geom_line(aes( y = SLG), color = "red") + 
   geom_line(aes( y = HRAB), color = "purple") + 
   geom_line(aes( y = RBIAB), color = "Orange") +
-  ylab("Percentages") + 
+  ylab("Averages") + 
+  xlab("Year") + 
+  ggtitle("Albert Pujols's Career mapped by Year") +
+  geom_vline(xintercept = 2010, color = "Red")
+
+ggplot(Albert, aes(x = Year)) +
+  geom_line(aes( y = HR), color = "blue") +
+  geom_line(aes( y = SO), color = "red") + 
+  geom_line(aes( y = BB), color = "purple") + 
+  geom_line(aes( y = RBI), color = "Orange") +
+  ylab("Totals By Category") + 
   xlab("Year") + 
   ggtitle("Albert Pujols's Career mapped by Year") +
   geom_vline(xintercept = 2010, color = "Red")
@@ -89,6 +99,16 @@ ggplot(Trout, aes(x = Year)) +
   ylab("Averages") + 
   xlab("Year") + 
   ggtitle("Mike Trout's Career mapped by Year") 
+
+ggplot(Trout, aes(x = Year)) +
+  geom_line(aes( y = HR), color = "blue") +
+  geom_line(aes( y = SB), color = "red") + 
+  geom_line(aes( y = BB), color = "purple") + 
+  geom_line(aes( y = RBI), color = "Orange") +
+  ylab("Totals By Category") + 
+  xlab("Year") + 
+  ggtitle("Mike Trout's Career mapped by Year") +
+  geom_vline(xintercept = 2018, color = "Red")
 
 ```
 Do Homerun hitters have higher Strike Out percentages?
@@ -147,7 +167,13 @@ head(dat4, 5)
 ```
 
 ```{r}
-correlationMatrix <- select(dat, AVG, OBP, HRAB, BABIP, RBIAB, )
+correlationMatrix <- select(dat, AVG, OBP, SLG, BABIP, OPS, HR, SO, RBI, BB, XBH)
 cor(correlationMatrix)
+
+```
+Chloroplath map 
+```{r}
+Stadiums <- read_excel("StadiumLocations.xlsx")
+
 
 ```
