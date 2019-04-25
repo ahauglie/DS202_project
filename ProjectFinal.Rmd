@@ -147,7 +147,7 @@ head(dat4, 5)
 ```
 
 ```{r}
-correlationMatrix <- select(dat, AVG, OBP, HRAB, BABIP)
+correlationMatrix <- select(dat, AVG, OBP, HRAB, BABIP, RBIAB, )
 cor(correlationMatrix)
 
 ```
