@@ -69,10 +69,10 @@ Following Albert Pujols through his career
 Albert <- dat[grepl("Pujols,A", dat$Player),]
 
 ggplot(Albert, aes(x = Year)) +
-  geom_line(Albert, aes( y = AVG), color = "blue") +
-  geom_line(Albert, aes( y = SLG), color = "red") + 
-  geom_line(Albert, aes( y = OPS), color = "purple") + 
-  geom_line(Albert, aes( y = HRAB), color = "red") +
+  geom_line(aes( y = AVG), color = "blue") +
+  geom_line(aes( y = SLG), color = "red") + 
+  geom_line(aes( y = OPS), color = "purple") + 
+  geom_line(aes( y = HRAB), color = "red") +
   ylab("Percentages") + 
   xlab("Year") + 
   ggtitle("Albert Pujols's Career mapped by Year")
@@ -81,10 +81,10 @@ ggplot(Albert, aes(x = Year)) +
 Trout <- dat[grepl("Trout,M", dat$Player),]
 
 ggplot(Trout, aes(x = Year)) +
-  geom_line(Trout, aes( y = AVG), color = "blue") +
-  geom_line(Trout, aes( y = SLG), color = "red") + 
-  geom_line(Trour, aes( y = OPS), color = "purple") + 
-  geom_line(Trout, aes( y = HRAB), color = "red") +
+  geom_line(aes( y = AVG), color = "blue") +
+  geom_line(aes( y = SLG), color = "red") + 
+  geom_line(aes( y = OPS), color = "purple") + 
+  geom_line(aes( y = HRAB), color = "red") +
   ylab("Percentages") + 
   xlab("Year") + 
   ggtitle("Mike Trout's Career mapped by Year")
@@ -118,8 +118,9 @@ Distribution of BABIP with Buter Posey Highlighted
 
 ```{r}
 Posey <- dat[grepl("Posey,B", dat$Player),]
-MeanBABIP <- mean(Posey$BABIP)
-ggplot(dat, aes(x = BABIP,)) + geom_histogram(aes(color = "black", fill = "white")) # + geom_vline(aes(xintercept = MeanBABIP, color = "Red"))
+MeanBABIPposey <- mean(Posey$BABIP)
+
+ggplot(dat, aes(x = BABIP,)) + geom_histogram(color = "black", fill = "white")  + geom_vline(xintercept = MeanBABIPposey, color = "Red")
 
 ```
 
@@ -141,5 +142,11 @@ head(dat4, 10)
 dat4 <- dat4[order(dat4$MeanHR, decreasing = TRUE),] 
 
 head(dat4, 5)
+
+```
+
+```{r}
+correlationMatrix <- select(dat, AVG, OBP, HRAB, BABIP)
+cor(correlationMatrix)
 
 ```
