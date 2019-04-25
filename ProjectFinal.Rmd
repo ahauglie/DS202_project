@@ -68,6 +68,15 @@ Following Albert Pujols through his career
 ```{r}
 Albert <- dat[grepl("Pujols,A", dat$Player),]
 
+ggplot(Albert, aes(x = Year, y = SLG)) + geom_point() +
+  geom_line(Albert, aes(x = Year, y = AVG), color = "blue")
+
+ggplot() + 
+  geom_line(data = prescription1, aes(x = dates, y = Difference), color = "blue") +
+  geom_line(data = prescription2, aes(x = dates, y = Difference), color = "red") +
+  xlab('Dates') +
+  ylab('percent.change')
+
 ```
 Do Homerun hitters have higher Strike Out percentages?
 ```{r}
