@@ -68,14 +68,26 @@ Following Albert Pujols through his career
 ```{r}
 Albert <- dat[grepl("Pujols,A", dat$Player),]
 
-ggplot(Albert, aes(x = Year, y = SLG)) + geom_point() +
-  geom_line(Albert, aes(x = Year, y = AVG), color = "blue")
+ggplot(Albert, aes(x = Year)) +
+  geom_line(Albert, aes( y = AVG), color = "blue") +
+  geom_line(Albert, aes( y = SLG), color = "red") + 
+  geom_line(Albert, aes( y = OPS), color = "purple") + 
+  geom_line(Albert, aes( y = HRAB), color = "red") +
+  ylab("Percentages") + 
+  xlab("Year") + 
+  ggtitle("Albert Pujols's Career mapped by Year")
 
-ggplot() + 
-  geom_line(data = prescription1, aes(x = dates, y = Difference), color = "blue") +
-  geom_line(data = prescription2, aes(x = dates, y = Difference), color = "red") +
-  xlab('Dates') +
-  ylab('percent.change')
+
+Trout <- dat[grepl("Trout,M", dat$Player),]
+
+ggplot(Trout, aes(x = Year)) +
+  geom_line(Trout, aes( y = AVG), color = "blue") +
+  geom_line(Trout, aes( y = SLG), color = "red") + 
+  geom_line(Trour, aes( y = OPS), color = "purple") + 
+  geom_line(Trout, aes( y = HRAB), color = "red") +
+  ylab("Percentages") + 
+  xlab("Year") + 
+  ggtitle("Mike Trout's Career mapped by Year")
 
 ```
 Do Homerun hitters have higher Strike Out percentages?
@@ -87,6 +99,10 @@ ggplot(dat, aes(x = HRAB, y = SOAB)) + geom_smooth(method='lm') + geom_point() +
 Giants data set
 ```{r}
 Giants <- dat[grepl("SF", dat$Team),]
+Padres <- dat[grepl("SD", dat$Team),]
+Rivals <- full_join(Padres, Giants)
+Rivals <- dat[(dat$Team == 'SF' ||dat$Team == 'SD'),]
+?grepl
 ```
 
 Does Avg # of pitches in an at bat correlate with batting Avg? Does it correlate with HRs?
