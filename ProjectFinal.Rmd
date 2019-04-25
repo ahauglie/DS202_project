@@ -96,13 +96,11 @@ ggplot(dat, aes(x = HRAB, y = SOAB)) + geom_smooth(method='lm') + geom_point() +
 
 ```
 
-Giants data set
+Graph rivalry teams by runs scored.
 ```{r}
 Giants <- dat[grepl("SF", dat$Team),]
 Padres <- dat[grepl("SD", dat$Team),]
 Rivals <- full_join(Padres, Giants)
-Rivals <- dat[(dat$Team == 'SF' ||dat$Team == 'SD'),]
-?grepl
 ```
 
 Does Avg # of pitches in an at bat correlate with batting Avg? Does it correlate with HRs?
