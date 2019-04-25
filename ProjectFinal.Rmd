@@ -189,13 +189,24 @@ head(dat4, 5)
 ```
 
 ```{r}
-correlationMatrix <- select(dat, AVG, OBP, SLG, BABIP, OPS, HR, SO, RBI, BB, XBH)
-cor(correlationMatrix)
-
+install.packages("Hmisc")
+library("Hmisc")
+install.packages("corrplot")
+library(corrplot)
+cordata <- select(dat, AVG, OBP, SLG, BABIP, OPS, HR, AO, SO, RBI, BB, XBH)
+cordata <- cor(cordata)
+cordata.rcorr = rcorr(as.matrix(cordata))
+cordata.rcorr
+palette = colorRampPalette(c("blue", "yellow", "red")) (20)
+corrplot(cordata, col = palette) #dot graph
+heatmap(x = cordata, col = palette, symm = TRUE) #heatmap
+#go back and change color scheme
 ```
-Chloroplath map 
+Chloropleth map 
 ```{r}
 Stadiums <- read_excel("StadiumLocations.xlsx")
 
-
+states <- map_data("state")
+ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))
+ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=LONGITUD, y=LATITUDE), data=acc %>% filter(LONGITUD <0 & LONGITUD> -130), size=0.02, color="white")
 ```
