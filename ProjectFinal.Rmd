@@ -117,7 +117,10 @@ ggplot(dat, aes(x = HRAB, y = NPAB)) + geom_smooth(method='lm') + geom_point() +
 Distribution of BABIP with Buter Posey Highlighted
 
 ```{r}
-ggplot(dat, aes(x = BABIP)) + geom_histogram()
+Posey <- dat[grepl("Posey,B", dat$Player),]
+MeanBABIP <- mean(Posey$BABIP)
+ggplot(dat, aes(x = BABIP,)) + geom_histogram(aes(color = "black", fill = "white")) # + geom_vline(aes(xintercept = MeanBABIP, color = "Red"))
+
 ```
 
 Which teams hit the most homeruns?
