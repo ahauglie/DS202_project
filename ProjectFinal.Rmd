@@ -11,13 +11,14 @@ knitr::opts_chunk$set(echo = TRUE)
  
 ```{r}
 library("readxl")
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
 dat <- read_excel("ALL.xlsx")
 dat <- select(dat, -Player2, -Player3)
 ```
 Create Variables we need
 ```{r}
-library(dplyr)
-library(tidyverse)
   dat <- mutate(dat, RBIAB = RBI / AB) ##Round these to .000 decimals if possible
   ##Runs batted in per at bat^
   dat <- mutate(dat, HRAB = HR / AB)  ##Round these to .000 decimals if possible
@@ -34,16 +35,15 @@ library(tidyverse)
 
 Visualize the Data
 ```{r}
-library(ggplot2)
-
 ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
 
 ggplot(dat, aes(x = OPS)) + geom_histogram(binwidth = .005,color="Black", fill="light green") + xlab("On-Base + Slugging Percentage") + ggtitle("Histogram of OPS") + ylab("Count")
 
 
-ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point() + geom_smooth(method='lm',formula=y~x)## R_SQUARED
+ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point(color = 'coral2') + geom_smooth(method='lm',formula=y~x) + xlab("RBI per At bat") + ggtitle("Relationship between Slugging Percentage and RBI's per At Bat") + ylab("Slugging Percentage")## R_SQUARED
+
+
 ggplot(dat, aes(x = HRAB, y = NPPA)) + geom_point() + geom_smooth(method='lm',formula=y~x) ## R_SQUARED
-ggplot(dat, aes(x = AVG, y = NPAB)) + geom_smooth(method='lm') + geom_point()## R_SQUARED
 ```
 Which position has the best batting average?
 ```{r}
@@ -63,17 +63,13 @@ head(dat3, 10)
 ```
 Following Albert Pujols through his career 
 ```{r}
-Albert <- dat[dat$Player == 'Pujols,A',]
+Albert <- filter(dat, Player == 'Pujols,A')
 ```
 
 
 
 
 
-Compare the NL vs AL in hitting stats
-```{r}
-
-```
 
 Does more HRs = less batting AVG?
 
@@ -84,7 +80,7 @@ Does more HRs = less batting AVG?
 Does Avg # of pitches in an at bat correlate with batting Avg? Does it correlate with HRs?
 
 ```{r}
-
+ggplot(dat, aes(x = AVG, y = NPAB)) + geom_smooth(method='lm') + geom_point()## R_SQUARED
 ```
 
 Who is getting intentionally walked? HR hitters or high avg hitters?
