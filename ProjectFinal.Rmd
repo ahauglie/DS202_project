@@ -63,7 +63,8 @@ head(dat3, 10)
 ```
 Following Albert Pujols through his career 
 ```{r}
-Albert <- filter(dat, Player == 'Pujols,A')
+Albert <- dat[grepl("Pujols,A", dat$Player),]
+
 ```
 
 
