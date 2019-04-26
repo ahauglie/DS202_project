@@ -47,7 +47,7 @@ Visualize the Data
 ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
 
 ggplot(dat, aes(x = OPS)) + geom_histogram(binwidth = .005,color="Black", fill="light green") + xlab("On-Base + Slugging Percentage") + ggtitle("Histogram of OPS") + ylab("Count")
-str(dat)
+
 correlationMatrix3 <- select(dat, SLG, RBIAB)
 cor(correlationMatrix3)
 
@@ -117,10 +117,11 @@ a <- ggplot(Albert, aes(x = Year)) +
   xlab("Year") + 
   ggtitle("Albert Pujols's Career mapped by Year") +
   geom_vline(xintercept = 2010, color = "Black") + 
-  annotate("Text", 2013.5, 130, label = "Decided to leave ALL his fans and \nleave St. Louis and head to the Angels. \nAll Stats Plummit")
+  annotate("Text", 2012.5, 130, label = "Left ALL his fans \nand headed to the Angels. \nAll Stats Plummit")
  ggplotly(a)
 
 Trout <- dat[grepl("Trout,M", dat$Player),]
+Trout <- Trout[-c(1),]
 
 b <- ggplot(Trout, aes(x = Year)) +
   geom_line(aes( y = AVG), color = "blue") +
@@ -191,7 +192,6 @@ ggplot(dat, aes(x = BABIP,)) + geom_histogram(color = "black", fill = "white") +
 Which teams hit the most homeruns?
 ```{r}
 dat7 <- dat
-
 
 dat7%>%
   select(Team, HRAB) %>%
