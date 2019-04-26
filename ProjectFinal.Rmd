@@ -213,6 +213,7 @@ head(dat8, 33)
 ```{r}
 library("Hmisc")
 library(corrplot)
+library(plotly)
 cordata <- select(dat, AVG, OBP, SLG, BABIP, OPS, HR, AO, SO, RBI, BB, XBH, NPPA, SB)
 cordata <- cor(cordata, use = "complete.obs")
 cordata.rcorr = rcorr(as.matrix(cordata))
@@ -272,14 +273,10 @@ whole <- half1 + geom_point(aes(x=Longitude, y=Latitude),data=MIL, colour="#B692
 
 
 library(ggrepel)
-whole+geom_text_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`Team Name`, color="white")
 #change team names to just team, not with city?
 #add batting avgs
 #change colors and size of text
-
-
-
-
+whole+geom_label(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`ABR.`, color="black", size=3, nudge_y = 1, label.padding = unit(.1, "lines"))+geom_text(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`AVG`, color="red", size=2, nudge_y = -1.5)
 
 
 #ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), size=2, color="red") +geom
