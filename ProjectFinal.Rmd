@@ -209,17 +209,59 @@ Stadiums <- read_excel("StadiumLocations.xlsx")
 View(Stadiums)
 
 states <- map_data("state")
-ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))
-ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), size=2, color="red") 
+base <- ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+ggtitle("MLB Teams")+ylab("_")+xlab(" ")
+base
 #Change this to look better, put labels, put colors, 
 #In the excel file, add averages for each team, make sure team names are able so we can display them
 
+LAA <- subset(Stadiums, Stadiums$ABB == "LAA")
+SF <- subset(Stadiums, Stadiums$ABB == "SF")
+COL <- subset(Stadiums, Stadiums$ABB == "COL")
+STL <- subset(Stadiums, Stadiums$ABB == "STL")
+ARI <- subset(Stadiums, Stadiums$ABB == "ARI")
+LAD <- subset(Stadiums, Stadiums$ABB == "LAD")
+NYM <- subset(Stadiums, Stadiums$ABB == "NYM")
+PHI <- subset(Stadiums, Stadiums$ABB == "PHI")
+DET <- subset(Stadiums, Stadiums$ABB == "DET")
+BOS <- subset(Stadiums, Stadiums$ABB == "BOS")
+TEX <- subset(Stadiums, Stadiums$ABB == "TEX")
+CIN <- subset(Stadiums, Stadiums$ABB == "CIN")
+KC <- subset(Stadiums, Stadiums$ABB == "KC")
+MIA <- subset(Stadiums, Stadiums$ABB == "MIA")
+MIL <- subset(Stadiums, Stadiums$ABB == "MIL")
+HOU <- subset(Stadiums, Stadiums$ABB == "HOU")
+WSH <- subset(Stadiums, Stadiums$ABB == "WSH")
+OAK <- subset(Stadiums, Stadiums$ABB == "OAK")
+BAL <- subset(Stadiums, Stadiums$ABB == "BAL")
+SD <- subset(Stadiums, Stadiums$ABB == "SD")
+PIT <- subset(Stadiums, Stadiums$ABB == "PIT")
+CLE <- subset(Stadiums, Stadiums$ABB == "CLE")
+TOR <- subset(Stadiums, Stadiums$ABB == "TOR")
+SEA <- subset(Stadiums, Stadiums$ABB == "SEA")
+MIN <- subset(Stadiums, Stadiums$ABB == "MIN")
+TB <- subset(Stadiums, Stadiums$ABB == "TB")
+ATL <- subset(Stadiums, Stadiums$ABB == "ATL")
+CWS <- subset(Stadiums, Stadiums$ABB == "CWS")
+CHC <- subset(Stadiums, Stadiums$ABB == "CHC")
+NYY <- subset(Stadiums, Stadiums$ABB == "NYY")
 
-teamdat <- dat
-teamdat%>%
-  select(Team, AVG) %>%
-  mutate(AVG = ifelse(AVG == -9999, NA, AVG)) %>%
-  group_by(Team) %>%
-  mutate(MEANAVG = mean(AVG, na.rm = T)) -> teamdat
-ggplot(dat2, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="goldenrod2") + xlab("Batting Average") + ggtitle("Histogram of Batting Average by Position") + ylab("Count") + facet_wrap(~Pos) + geom_vline(aes(xintercept = MEANAVG))
+half1 <- base+geom_point(aes(x=Longitude, y=Latitude),data=LAA, colour="#003263", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=LAA, color="#BA0021", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=SF, colour="#FD5A1E", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=SF, color="#27251F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=COL, colour="#C4CED4", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=COL, color="#33006F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=STL, colour="#0C2340", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=STL, color="#C41E3A", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=ARI, colour="#E3D4AD", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=ARI, color="#A71930", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=LAD, colour="#EF3E42", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=LAD, color="#005A9C", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=NYM, colour="#FF5910", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=NYM, color="#002D72", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=PHI, colour="#002D72", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=PHI, color="#E81828", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=DET, colour="#FA4616", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=DET, color="#0C2340", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=BOS, colour="#0C2340", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=BOS, color="#BD3039", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=TEX, colour="#C0111F", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=TEX, color="#003278", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=CIN, colour="white", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=CIN, color="#C6011F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=KC, colour="#BD9B60", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=KC, color="#004687", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=KC, colour="#BD9B60", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=KC, color="#004687", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=MIA, colour="#FF6600", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=MIA, color="#0077C8", size =5)
+
+whole <- half1 + geom_point(aes(x=Longitude, y=Latitude),data=MIL, colour="#B6922E", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=MIL, color="#0A2351", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=HOU, colour="#EB6E1F", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=HOU, color="#002D62", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=WSH, colour="#14225A", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=WSH, color="#AB0003", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=OAK, colour="#EFB21E", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=OAK, color="#003831", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=BAL, colour="#000000", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=BAL, color="#DF4601", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=SD, colour="#A2AAAD", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=SD, color="#002D62", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=PIT, colour="#FDB827", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=PIT, color="#27251F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=CLE, colour="#E31937", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=CLE, color="#0C2340", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=TOR, colour="#1D2D5C", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=TOR, color="#134A8E", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=SEA, colour="#005C5C", size=7)+geom_point(aes(x=Longitude,y=Latitude),data=SEA,color="#0C2C56", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=MIN, colour="#D31145", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=MIN, color="#002B5C", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=TB, colour="#8FBCE6", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=TB, color="#092C5C", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=ATL, colour="#13274F", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=ATL, color="#CE1141", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=CWS, colour="#C4CED4", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=CWS, color="#27251F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=CHC, colour="#CC3433", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=CHC, color="#0E3386", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=NYY, colour="#0C2340", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=NYY, color="red", size =5)
+
+
+library(ggrepel)
+whole+geom_text_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`Team Name`, color="white")
+#change team names to just team, not with city?
+#add batting avgs
+#change colors and size of text
+
+
+
+
+
+
+#ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), size=2, color="red") +geom
+
+
 ```
