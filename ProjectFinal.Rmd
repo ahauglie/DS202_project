@@ -193,7 +193,6 @@ Which teams hit the most homeruns?
 ```{r}
 dat7 <- dat
 
-
 dat7%>%
   select(Team, HRAB) %>%
   mutate(HRAB = ifelse(HRAB == -9999, NA, HRAB)) %>%
