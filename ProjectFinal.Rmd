@@ -41,7 +41,6 @@ Create Variables we need
   ##Number of StrikeOuts per at bat^
 ```
 
-
 Visualize the Data
 ```{r}
 ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
