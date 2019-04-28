@@ -283,7 +283,7 @@ library(ggrepel)
 whole+geom_label_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`ABR.`, color="black", size=3, nudge_y = .85,nudge_x = 0, label.padding = unit(.1, "lines"), alpha=.8, segment.size = .25)+geom_text(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`AVG`, color="white", size=1.5, nudge_y = 0,nudge_x=0, alpha=.8, check_overlap = TRUE)
 
 #geom_text_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`AVG`, color="red", size=2, nudge_y = .5, segment.size = 0)
-
+##
 #ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), size=2, color="red") +geom
 
 
