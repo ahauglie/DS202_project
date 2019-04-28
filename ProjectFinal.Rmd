@@ -256,8 +256,6 @@ Chloropleth map
 #11
 Stadiums <- read_excel("StadiumLocations.xlsx")
 
-View(Stadiums)
-
 states <- map_data("state")
 base <- ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+ggtitle("MLB Teams")+ylab("_")+xlab(" ")
 base
@@ -304,7 +302,7 @@ library(ggrepel)
 #change team names to just team, not with city?
 #add batting avgs
 #change colors and size of text
-whole+geom_label(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`ABR.`, color="black", size=3, nudge_y = 1, label.padding = unit(.1, "lines"))+geom_text(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`AVG`, color="red", size=2, nudge_y = -1.5)
+whole+geom_label(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`ABR.`, color="black", size=3, nudge_y = 1, label.padding = unit(.1, "lines"))+geom_text_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`AVG`, color="red", size=2, nudge_y = -1.5)
 
 
 #ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), size=2, color="red") +geom
