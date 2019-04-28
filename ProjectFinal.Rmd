@@ -283,7 +283,12 @@ library(ggrepel)
 #change colors and size of text
 whole+geom_label(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`ABR.`, color="black", size=3, nudge_y = 1, label.padding = unit(.1, "lines"))+geom_text_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`AVG`, color="red", size=2, nudge_y = -1.5)
 
+<<<<<<< HEAD
 
+=======
+#geom_text_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`AVG`, color="red", size=2, nudge_y = .5, segment.size = 0)
+##
+>>>>>>> 99c80b5f883da3e0788c536d9cb814e40a29cdcc
 #ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), size=2, color="red") +geom
 
 
