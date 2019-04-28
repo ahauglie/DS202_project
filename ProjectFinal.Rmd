@@ -190,7 +190,7 @@ Posey <- dat[grepl("Posey,B", dat$Player),]
 MeanBABIPposey <- mean(Posey$BABIP)
 
 ggplot(dat, aes(x = BABIP,)) + geom_histogram(color = "black", fill = "white") +
-  geom_vline(xintercept = MeanBABIPposey, color = "Red") +
+  geom_vline(xintercept = MeanBABIPposey, color = "Orange") +
   annotate("Text", .38, 135, label = "Buster Posey's Average BABIP")
 
 ```
