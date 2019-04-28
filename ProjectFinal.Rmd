@@ -20,6 +20,7 @@ dat <- select(dat, -Player2, -Player3)
 ```
 Create Variables we need
 ```{r}
+#1
   dat <- mutate(dat, RBIAB = RBI / AB)
   dat$RBIAB <- round(dat$RBIAB, digits = 3)
   ##Runs batted in per at bat^
@@ -43,17 +44,23 @@ Create Variables we need
 
 Visualize the Data
 ```{r}
+#2
+##A
 ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
 
+##B
 ggplot(dat, aes(x = OPS)) + geom_histogram(binwidth = .005,color="Black", fill="light green") + xlab("On-Base + Slugging Percentage") + ggtitle("Histogram of OPS") + ylab("Count")
+#change title to be more informative
 
+
+#finding R sqd
 correlationMatrix3 <- select(dat, SLG, RBIAB)
 cor(correlationMatrix3)
 
-ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point(color = 'coral2') + geom_smooth(method='lm',formula=y~x) + xlab("RBI per At bat") + ggtitle("Relationship between Slugging Percentage and RBI's per At Bat") + ylab("Slugging Percentage") + annotate("Text", .325, .55, label = "      R = .796 \n R^2 = .634")
+##C
+ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point(color = 'coral2') + geom_smooth(method='lm',formula=y~x) + xlab("RBI per At bat") + ggtitle("Relationship between Slugging Percentage and RBI's per At Bat") + ylab("Slugging Percentage") + annotate("Text", .325, .55, label = "      R = .797 \n R^2 = .634")
 
-correlationMatrix3 <- select(dat, RBI, SLG)
-cor(correlationMatrix3)
+
 ```
 Does getting more pitches in an at Bat increase the odds of hitting a homerun? *PROBABLY WONT USE THIS*
 ```{r}
@@ -62,6 +69,7 @@ ggplot(dat, aes(x = HRAB, y = NPPA)) + geom_point() + geom_smooth(method='lm',fo
 ```
 Which position has the best batting average?
 ```{r}
+#3
 dat2 <- dat
 dat2%>%
   select(Pos, AVG) %>%
@@ -79,6 +87,7 @@ head(dat3, 11)
 ```
 Teams batting average?
 ```{r}
+#4
 dat5 <- dat
 dat5%>%
   select(Team, AVG) %>%
@@ -95,8 +104,9 @@ head(dat6, 10)
 
 Following Albert Pujols through his career 
 ```{r}
+#5
 Albert <- dat[grepl("Pujols,A", dat$Player),]
-
+#not this one below
 ggplot(Albert, aes(x = Year)) +
   geom_line(aes( y = AVG), color = "blue") +
   geom_line(aes( y = SLG), color = "red") + 
@@ -106,7 +116,7 @@ ggplot(Albert, aes(x = Year)) +
   xlab("Year") + 
   ggtitle("Albert Pujols's Career mapped by Year") +
   geom_vline(xintercept = 2010, color = "Red")
-
+#this one
 a <- ggplot(Albert, aes(x = Year)) +
   geom_line(aes( y = HR), color = "blue") +
   geom_line(aes( y = SO), color = "red") + 
@@ -118,10 +128,16 @@ a <- ggplot(Albert, aes(x = Year)) +
   geom_vline(xintercept = 2010, color = "Black") + 
   annotate("Text", 2012.5, 130, label = "Left ALL his fans \nand headed to the Angels. \nAll Stats Plummit")
  ggplotly(a)
+ #need a legend in here, what each line means
+ 
+ 
+ 
+ 
 
 Trout <- dat[grepl("Trout,M", dat$Player),]
 Trout <- Trout[-c(1),]
 
+#not this one
 b <- ggplot(Trout, aes(x = Year)) +
   geom_line(aes( y = AVG), color = "blue") +
   geom_line(aes( y = BABIP), color = "red") + 
@@ -131,6 +147,7 @@ b <- ggplot(Trout, aes(x = Year)) +
   xlab("Year") + 
   ggtitle("Mike Trout's Career mapped by Year") 
 
+#this one
 ggplot(Trout, aes(x = Year)) +
   geom_line(aes( y = HR), color = "blue") +
   geom_line(aes( y = SB), color = "red") + 
@@ -140,10 +157,12 @@ ggplot(Trout, aes(x = Year)) +
   xlab("Year") + 
   ggtitle("Mike Trout's Career mapped by Year") +
   geom_vline(xintercept = 2017, color = "Black")
-
+#either change to plotly or show what the lines mean
+#add legend
 ```
 Do Homerun hitters have higher Strike Out percentages?
 ```{r}
+#6
 correlationMatrix2 <- select(dat, HRAB, SOAB)
 cor(correlationMatrix2)
 
@@ -154,12 +173,13 @@ ggplot(dat, aes(x = HRAB, y = SOAB)) + geom_smooth(method='lm') + geom_point() +
 
 Graph rivalry teams by runs scored.
 ```{r}
+#7
 RedSox <- dat[grepl("BOS", dat$Team),]
 Yankees <- dat[grepl("NYY", dat$Team),]
 Rivals <- full_join(RedSox, Yankees)
 
 jColors = c("#BD3039", "#0C2340")
-ggplot(Rivals, aes(x = HR, y = AVG)) + geom_boxplot() + facet_wrap(~Team) + xlab("Average Home Runs Hit in a Season") + ylab("Batting Average") + ggtitle("Rivaly Between the Boston Red Sox and New York Yankees") + aes(fill = Team) + scale_fill_manual(values = jColors)
+ggplot(Rivals, aes(x = HR, y = AVG)) + geom_boxplot() + facet_wrap(~Team) + xlab("Average Home Runs Hit in a Season") + ylab("Batting Average") + ggtitle("Rivalry Between the Boston Red Sox and New York Yankees") + aes(fill = Team) + scale_fill_manual(values = jColors)
 
 ```
 
@@ -179,17 +199,21 @@ ggplot(dat, aes(x = HRAB, y = NPAB)) + geom_smooth(method='lm') + geom_point() +
 Distribution of BABIP with Buster Posey Highlighted
 
 ```{r}
+#8
 Posey <- dat[grepl("Posey,B", dat$Player),]
 MeanBABIPposey <- mean(Posey$BABIP)
 
 ggplot(dat, aes(x = BABIP,)) + geom_histogram(color = "black", fill = "white") +
-  geom_vline(xintercept = MeanBABIPposey, color = "Red") +
+  geom_vline(xintercept = MeanBABIPposey, color = "orange") +
   annotate("Text", .38, 135, label = "Buster Posey's Average BABIP")
+
+#add average line????
 
 ```
 
 Which teams hit the most homeruns?
 ```{r}
+#9
 dat7 <- dat
 
 dat7%>%
@@ -207,9 +231,13 @@ dat8 <- dat8[order(dat8$MeanHR, decreasing = TRUE),]
 
 head(dat8, 33)
 
+#could putting batting avgs
+#we could do teams stats with logos on a slide, meanHR, AVG, etc....
+
 ```
 
 ```{r}
+#10
 library("Hmisc")
 library(corrplot)
 library(plotly)
@@ -224,7 +252,7 @@ heatmap(x = cordata, col = palette, symm = TRUE) #heatmap
 ```
 Chloropleth map 
 ```{r}
-
+#11
 Stadiums <- read_excel("StadiumLocations.xlsx")
 
 View(Stadiums)
