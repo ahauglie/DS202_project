@@ -1,6 +1,6 @@
 ---
-title: "iduvbqlkcja DS"
-author: "Alicia Hauglie"
+title: "Project Final FINAL"
+author: "Sam Cole & Alicia Hauglie"
 date: "4/28/2019"
 output: html_document
 ---
@@ -117,7 +117,7 @@ ggplot(Albert, aes(x = Year)) +
   ylab("Averages") + 
   xlab("Year") + 
   ggtitle("Albert Pujols's Career mapped by Year") +
-  geom_vline(xintercept = 2010, color = "Red")
+  geom_vline(xintercept = 2010, color = "Red")+scale_color_discrete(name = "Y series", labels = c("Y2", "Y1", "Y3", "Y4"))
 
 a <- ggplot(Albert, aes(x = Year)) +
   geom_line(aes( y = HR), color = "blue") +
@@ -131,6 +131,8 @@ a <- ggplot(Albert, aes(x = Year)) +
   geom_vline(xintercept = 2010, color = "Black") + 
   annotate("Text", 2011.8, 140, label = "Left ALL his fans \nand headed to the Angels. \nAll Stats Plummit", size=5)
  ggplotly(a)
+ 
+#geom_text(aes(y=HR, label="HR"))+
 
 Trout <- dat[grepl("Trout,M", dat$Player),]
 Trout <- Trout[-c(1),]
@@ -176,6 +178,7 @@ Rivals <- full_join(RedSox, Yankees)
 
 jColors = c("#BD3039", "#0C2340")
 ggplot(Rivals, aes(x = HR, y = AVG)) + geom_boxplot() + facet_wrap(~Team) + xlab("Average Home Runs Hit in a Season") + ylab("Batting Average") + ggtitle("Rivaly Between the Boston Red Sox and New York Yankees") + aes(fill = Team) + scale_fill_manual(values = jColors)
+
 
 ```
 
@@ -294,6 +297,23 @@ whole+geom_label_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Lo
 #geom_text_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`AVG`, color="red", size=2, nudge_y = .5, segment.size = 0)
 ##
 #ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+geom_point(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), size=2, color="red") +geom
+
+
+```
+
+
+```{r}
+#3d plot 
+
+install.packages("rgl")
+library(rgl)
+
+testbaseball <- read_excel("ALL.xlsx")
+testbaseball <- select(testbaseball, -Player2, -Player3)
+
+testbaseball
+
+
 
 
 ```
