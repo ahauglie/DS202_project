@@ -121,14 +121,15 @@ ggplot(Albert, aes(x = Year)) +
 
 a <- ggplot(Albert, aes(x = Year)) +
   geom_line(aes( y = HR), color = "blue") +
-  geom_line(aes( y = SO), color = "red") + 
+  geom_line(aes( y = H), color = "red") + 
   geom_line(aes( y = BB), color = "purple") + 
   geom_line(aes( y = RBI), color = "Orange") +
+  geom_line(aes( y = XBH), color = "Green") +
   ylab("Totals By Category") + 
   xlab("Year") + 
   ggtitle("Albert Pujols's Career mapped by Year") +
   geom_vline(xintercept = 2010, color = "Black") + 
-  annotate("Text", 2012.5, 130, label = "Left ALL his fans \nand headed to the Angels. \nAll Stats Plummit")
+  annotate("Text", 2011.8, 140, label = "Left ALL his fans \nand headed to the Angels. \nAll Stats Plummit", size=5)
  ggplotly(a)
 
 Trout <- dat[grepl("Trout,M", dat$Player),]
@@ -148,6 +149,7 @@ b <- ggplot(Trout, aes(x = Year)) +
   geom_line(aes( y = SB), color = "red") + 
   geom_line(aes( y = BB), color = "purple") + 
   geom_line(aes( y = RBI), color = "Orange") +
+  geom_line(aes( y = XBH), color = "Green") +
   ylab("Totals By Category") + 
   xlab("Year") + 
   ggtitle("Mike Trout's Career mapped by Year") +
