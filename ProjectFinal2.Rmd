@@ -299,3 +299,20 @@ whole+geom_label_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Lo
 
 ```
 
+
+```{r}
+#3d plot 
+
+install.packages("rgl")
+library(rgl)
+
+testbaseball <- read_excel("ALL.xlsx")
+testbaseball <- select(testbaseball, -Player2, -Player3)
+
+testbaseball
+
+
+
+
+```
+
