@@ -314,6 +314,11 @@ scatterplot3d(dat5$Team,dat5$AVG,dat5$MEANAVG)
 
 #What position has the highest stats?
 
+dat5
+
+
+plot3d(dat$Team, dat2$Pos, dat2$AVG, color = "blue")
+
 dat3
 
 xyz <- factor(dat3$Pos)
@@ -358,7 +363,40 @@ plot3d()
 
 #Do Homerun hitters have higher Strike Out percentages?
 
+dat
+dat1
+dat2
+dat3
+dat4
+dat5
+dat6
+dat7
+dat8
+
 #Compare best players stats: can do players that Sam choose or pick 2 players 
+
+
+
+# Random 3d to compare different questions 
+
+ab <- dat %>% filter(Pos == "1B", Team == "LAD")   #LA Dogers 
+ac <- dat %>% filter(Pos == "1B", Team == "STL")  #Cardinals 
+ad <- dat %>% filter(Pos == "1B", Team == "TB")   # Tampa Bay 
+
+bb <- dat %>% filter(Pos == "2B", Team == "LAD")   #LA Dogers 
+bc <- dat %>% filter(Pos == "2B", Team == "STL")  #Cardinals 
+bd <- dat %>% filter(Pos == "2B", Team == "TB")   # Tampa Bay 
+bb
+cb <- dat %>% filter(Pos == "3B", Team == "LAD")   #LA Dogers 
+cc <- dat %>% filter(Pos == "3B", Team == "STL")  #Cardinals 
+cd <- dat %>% filter(Pos == "3B", Team == "TB")   # Tampa Bay 
+
+
+plot3d(ab$AVG, ac$AVG, ad$AVG)
+plot3d(bb$AVG, bc$AVG, bd$AVG)
+plot3d(cb$AVG, cc$AVG, cd$AVG)
+
+team
 
 ```
 
