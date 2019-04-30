@@ -304,13 +304,36 @@ whole+geom_label_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Lo
 
 ```{r}
 #3d plot 
-
+#CLEAN UP AT THE END 
 install.packages("scatterplot3d")
 require("scatterplot3d")
 library(rgl)
 require("RColorBrewer")
 
 scatterplot3d(dat5$Team,dat5$AVG,dat5$MEANAVG)
+
+
+
+#Visualizing different data 
+dat
+
+plot3d(dat$HR,dat$AVG,dat$RBI)  # Visualizing different statistics 
+
+ab <- dat %>% filter(Pos == "1B")
+
+
+
+sai <- dat %>% group_by(Pos) %>% summarise(mean_avg = mean(AVG), mean_hr = mean(HR), mean_rbi = mean(RBI))
+sai1 <- dat %>% group_by(Team) %>% summarise(mean_avg = mean(AVG), mean_hr = mean(HR), mean_rbi = mean(RBI))
+sai1
+plot3d(sai$mean_avg,sai$mean_hr,sai$mean_rbi)
+plot3d(ab$HR,ab$AVG,ab$RBI)
+
+
+
+
+
+
 
 #What position has the highest stats?
 
@@ -326,7 +349,7 @@ xyz
 
 dat2
 
-lmk <- dat2 %>% group_by(Team)
+lmk <- dat2 %>% group_by(Team) %>% summarise(mean_rate = mean(AVG))
 lmk
 
 plot3d(dat$RBIAB, dat$HR, dat$AVG, col = col=as.integer(dat5$Team) , size = 3, xlab = "RBIAB", ylab = "HR", zlab = "Average", aspect = TRUE)  #Explain what this shows, make new one with better visualization #change color to individual teams 
@@ -379,9 +402,16 @@ dat8
 
 # Random 3d to compare different questions 
 
-ab <- dat %>% filter(Pos == "1B", Team == "LAD")   #LA Dogers 
+#Top teams in MLB 
+
+ab <- dat %>% filter(Pos == "1B")   #LA Dogers 
 ac <- dat %>% filter(Pos == "1B", Team == "STL")  #Cardinals 
 ad <- dat %>% filter(Pos == "1B", Team == "TB")   # Tampa Bay 
+
+ab
+
+lfk1
+
 
 bb <- dat %>% filter(Pos == "2B", Team == "LAD")   #LA Dogers 
 bc <- dat %>% filter(Pos == "2B", Team == "STL")  #Cardinals 
