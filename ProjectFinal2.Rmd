@@ -311,7 +311,7 @@ dat
 
 #What position has the highest stats?
 
-plot3d(dat$RBIAB, dat$HR, dat$AVG, col = "blue" , size = 3)  #Explain what this shows, make new one with better visualization 
+plot3d(dat$RBIAB, dat$HR, dat$AVG, col = "blue" , size = 3, xlab = "RBIAB", ylab = "HR", zlab = "Average", aspect = TRUE)  #Explain what this shows, make new one with better visualization #change color to individual teams 
 
 
 #NL vs AL 
@@ -333,6 +333,7 @@ plot3d()
 #Do Homerun hitters have higher Strike Out percentages?
 
 #Compare best players stats: can do players that Sam choose or pick 2 players 
+
 
 
 
