@@ -313,6 +313,10 @@ require("RColorBrewer")
 dat
 
 #What position has the highest stats?
+dat2
+
+lmk <- dat2 %>% group_by(Team)
+lmk
 
 plot3d(dat$RBIAB, dat$HR, dat$AVG, col = col=as.integer(dat5$Team) , size = 3, xlab = "RBIAB", ylab = "HR", zlab = "Average", aspect = TRUE)  #Explain what this shows, make new one with better visualization #change color to individual teams 
 
@@ -324,7 +328,7 @@ plot3d()
 #Which position has the best batting average? 
 dat3
 dat
-plot3d(dat3$MEANAVG,dat2$AVG,dat4$Count, col = "red", size = 3)
+plot3d(dat3$MEANAVG,dat2$AVG,dat4$Count, col = dat3$Pos, size = 3)
 
 #Who gets intentionally walked?
 
@@ -335,9 +339,13 @@ plot3d()
 
 dat7
 dat
-dat
-dat10 <- dat %>% group_by(Team) 
-dat10
+dat2
+nrow(dat2)
+pos1B <- dat2 %>% filter(Pos == "1B") %>% summarise(avg_pos_1B = mean(AVG, na.rm = TRUE))
+
+dat3
+pos1B
+
 plot3d()
 
 #Do Homerun hitters have higher Strike Out percentages?
