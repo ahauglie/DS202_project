@@ -316,6 +316,28 @@ plot3d(dat$RBIAB, dat$HR, dat$AVG, col = "blue" , size = 3)  #Explain what this 
 
 #NL vs AL 
 
+plot3d()
+
+#Which position has the best batting average? 
+dat3
+dat
+plot3d(dat3$MEANAVG,dat2$AVG,dat4$Count, col = "red", size = 3)
+
+#Who gets intentionally walked?
+
+plot3d()
+## Use different plotting method? Can get good description 
+
+#Which teams hit the most homeruns?
+
+#Do Homerun hitters have higher Strike Out percentages?
+
+#Compare best players stats: can do players that Sam choose or pick 2 players 
+
+
+
+
+
 
 
 
