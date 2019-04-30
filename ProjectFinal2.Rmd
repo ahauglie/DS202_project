@@ -305,14 +305,20 @@ whole+geom_label_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Lo
 ```{r}
 #3d plot 
 
+install.packages("scatterplot3d")
+require("scatterplot3d")
 library(rgl)
 require("RColorBrewer")
 
-
-
-dat
+scatterplot3d(dat5$Team,dat5$AVG,dat5$MEANAVG)
 
 #What position has the highest stats?
+
+dat3
+
+xyz <- factor(dat3$Pos)
+xyz
+
 dat2
 
 lmk <- dat2 %>% group_by(Team)
@@ -328,7 +334,7 @@ plot3d()
 #Which position has the best batting average? 
 dat3
 dat
-plot3d(dat3$MEANAVG,dat2$AVG,dat4$Count, col = dat3$Pos, size = 3)
+plot3d(dat3$MEANAVG,dat2$AVG,dat4$Count, col = as.integer(dat3$Pos), size = 3)
 
 #Who gets intentionally walked?
 
@@ -340,6 +346,8 @@ plot3d()
 dat7
 dat
 dat2
+
+
 nrow(dat2)
 pos1B <- dat2 %>% filter(Pos == "1B") %>% summarise(avg_pos_1B = mean(AVG, na.rm = TRUE))
 
@@ -351,18 +359,6 @@ plot3d()
 #Do Homerun hitters have higher Strike Out percentages?
 
 #Compare best players stats: can do players that Sam choose or pick 2 players 
-
-
-
-
-
-
-
-
-
-
-
-
 
 ```
 
