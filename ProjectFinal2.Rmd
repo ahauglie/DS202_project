@@ -306,12 +306,15 @@ whole+geom_label_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Lo
 #3d plot 
 
 library(rgl)
+require("RColorBrewer")
+
+
 
 dat
 
 #What position has the highest stats?
 
-plot3d(dat$RBIAB, dat$HR, dat$AVG, col = "blue" , size = 3, xlab = "RBIAB", ylab = "HR", zlab = "Average", aspect = TRUE)  #Explain what this shows, make new one with better visualization #change color to individual teams 
+plot3d(dat$RBIAB, dat$HR, dat$AVG, col = col=as.integer(dat5$Team) , size = 3, xlab = "RBIAB", ylab = "HR", zlab = "Average", aspect = TRUE)  #Explain what this shows, make new one with better visualization #change color to individual teams 
 
 
 #NL vs AL 
@@ -329,6 +332,13 @@ plot3d()
 ## Use different plotting method? Can get good description 
 
 #Which teams hit the most homeruns?
+
+dat7
+dat
+dat
+dat10 <- dat %>% group_by(Team) 
+dat10
+plot3d()
 
 #Do Homerun hitters have higher Strike Out percentages?
 
