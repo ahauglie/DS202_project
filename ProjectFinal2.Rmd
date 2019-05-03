@@ -123,8 +123,8 @@ a <- ggplot(Albert, aes(x = Year)) +
   geom_line(aes( y = HR), color = "blue") +
   geom_line(aes( y = H), color = "red") + 
   geom_line(aes( y = BB), color = "purple") + 
-  geom_line(aes( y = RBI), color = "Orange") +
-  geom_line(aes( y = XBH), color = "Green") +
+  geom_line(aes( y = RBI), color = "darkgoldenrod4") +
+  geom_line(aes( y = XBH), color = "Dark Green") +
   ylab("Totals By Category") + 
   xlab("Year") + 
   ggtitle("Albert Pujols's Career mapped by Year") +
@@ -141,7 +141,7 @@ ggplot(Trout, aes(x = Year)) +
   geom_line(aes( y = AVG), color = "blue") +
   geom_line(aes( y = BABIP), color = "red") + 
   geom_line(aes( y = HRAB), color = "purple") + 
-  geom_line(aes( y = RBIAB), color = "Orange") +
+  geom_line(aes( y = RBIAB), color = "darkgoldenrod3") +
   ylab("Averages") + 
   xlab("Year") + 
   ggtitle("Mike Trout's Career mapped by Year") 
@@ -150,15 +150,15 @@ b <- ggplot(Trout, aes(x = Year)) +
   geom_line(aes( y = HR), color = "blue") +
   geom_line(aes( y = SB), color = "red") + 
   geom_line(aes( y = BB), color = "purple") + 
-  geom_line(aes( y = RBI), color = "Orange") +
-  geom_line(aes( y = XBH), color = "Green") +
+  geom_line(aes( y = RBI), color = "darkgoldenrod3") +
+  geom_line(aes( y = XBH), color = "Dark Green") +
   ylab("Totals By Category") + 
   xlab("Year") + 
   ggtitle("Mike Trout's Career mapped by Year") +
   geom_vline(xintercept = 2017, color = "Black")
 ggplotly(b)
 
-#LEGENDS^^
+
 ```
 Do Homerun hitters have higher Strike Out percentages?
 ```{r}
