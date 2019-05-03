@@ -124,7 +124,9 @@ We began by getting some simple visualizations of the basic stats in our data:
 g <- ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
 ggplotly(g)
 ```
-This shows us the batting averages for all active players (with each data point being a certain player in a certain year). If an AVG is .3, that means the player has a 30% chance of getting a hit. For reference, 350 is a very good batting average. The outliers are players who played just a few games in a season, and happened to play really well during those games (thus making them very high outliers). This alone does not tell us how good a player is as different players have different goals, some hit to get on base, some hit with the goals of HRs, etc. The distribution would be bell shaped if worse-ranked players were also included.    
+This shows us the batting averages for all active players (with each data point being a certain player in a certain year). If an AVG is .3, that means the player has a 30% chance of getting a hit. For reference, 350 is a very good batting average. The outliers are players who played just a few games in a season, and happened to play really well during those games (thus making them very high outliers). This alone does not tell us how good a player is as different players have different goals, some hit to get on base, some hit with the goals of HRs, etc. The distribution would be bell shaped if worse-ranked players were also included (players who have AVGs less than .25). Since our dataset only includes player with at least 3.1 plate appearances per game, it would not include players with AVGs less than .25 because they would get pulled for not hitting well and therefore would not get to 3.1 plate appearances.     
+
+Both batting average and OPS are bell-shaped for active players. 
 
 
 
