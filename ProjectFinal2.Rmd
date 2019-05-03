@@ -201,7 +201,7 @@ Distribution of BABIP with Buster Posey Highlighted
 Posey <- dat[grepl("Posey,B", dat$Player),]
 MeanBABIPposey <- mean(Posey$BABIP)
 
-ggplot(dat, aes(x = BABIP,)) + geom_histogram(color = "black", fill = "white") +
+ggplot(dat, aes(x = BABIP)) + geom_histogram(color = "black", fill = "white") +
   geom_vline(xintercept = MeanBABIPposey, color = "Orange") +
   annotate("Text", .38, 135, label = "Buster Posey's Average BABIP")
 
@@ -304,15 +304,30 @@ whole+geom_label_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Lo
 
 ```{r}
 #3d plot 
-
-install.packages("rgl")
+#CLEAN UP AT THE END 
+require("scatterplot3d")
 library(rgl)
+require("RColorBrewer")
 
-testbaseball <- read_excel("ALL.xlsx")
-testbaseball <- select(testbaseball, -Player2, -Player3)
 
-testbaseball
 
+#Visualizing different data 
+dat
+
+plot3d(dat$HR,dat$AVG,dat$RBI, col = "blue")  # Visualizing different statistic, dat
+
+plot3d(dat$HR, dat2$AVG,dat2$MEANAVG,  xlab = "HR", ylab = "AVG", zlab = "MEANAVG", col = "red") #Visualization for dat2
+
+plot3d(dat$RBIAB,dat5$AVG,dat5$MEANAVG,  xlab = "RBIAB", ylab = "AVG", zlab = "MEANAVG") #Visualization of RBIAB
+
+plot3d(dat$HRAB,dat$SOAB,dat$AVG,  xlab = "HRAB", ylab = "SOAB", zlab = "AVG") #How does HRAB and SOAB affect Avg
+
+
+sp3d <- scatterplot3d(dat$HR,dat$AVG,dat$RBI, pch =16, main = "3D Scatterplot")
+
+plot3d(dat$RBIAB, dat$HRAB, dat$BABIP, xlab = "RBIAB",ylab = "HRAB", zlab = "BABIP", col = "blue") # Visualizing created data 
+
+plot3d(dat$NPAB,dat$HRAB,dat$AVG, xlab = "NPAB", ylab = "HRAB", zlab = "AVG", col = "blue") #Does Avg # of pitches in an at bat correlate with batting Avg? Does it correlate with HRs?
 
 
 

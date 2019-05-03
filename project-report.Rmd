@@ -1,0 +1,168 @@
+---
+title: "Final Report"
+author: "Alicia Hauglie, Sam Cole, Sai Gugulothu"
+date: "5/2/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# **Major League Baseball Stats Analysis**
+
+Team 4: Sam Cole, Alicia Hauglie, & Sai Gugulothu
+
+
+##**Background & Questions Raised**  
+
+Our data came from [MLB.com](http:://mlb.mlb.com/stats), which has MLB player stats dating all the way back to 1876. We chose to focus on Active players, or those who are currently playing in the league. This dataset has hitting stats for all active players that have at least 3.1 plate appearances per team game played. These are the players that are starting almost every game for each team and getting the most at-bats in the league. So basically, these are the starting/regular players of each of the 30 MLB teams. In this data you can see player positions, batting averages, RBIs, and home runs, as well as many other stats for each player. The top 1000 rankings are included in our dataset. Ranking is determined solely by AVG, or batting average. Each row, or rank, is the stats for one player for one year, so there are players with multiple rows, as they have played multiple years. It's interesting to note that there are 1001 rows, this is because two players have the same ranking at some point, giving us players in 1000 ranks. The MLB consists of both the American League and the National League, the only major difference between the two are what teams are in each and in the American League there is a "designated hitter" position that is not in the NL. It is necessary to include some definitions in order to better understand our data and the game of baseball in general.  
+
+
+###Variable Definitions  
+**`RK:`** rank. The rank of the player (in a given year) based on their batting average for the year.  
+**`Player:`** Name of the player.  
+**`Year:`** Year in which the player's stats are from.  
+**`Team:`** The abbreviation of the 30 MLB team names. In the Stadiums file, "Team Name" shows the full name of the teams.   
+**`Pos:`** Player's position.   
+       - 1B: first base   
+       - SS: shortstop   
+       - 2B: second base   
+       - 3B: third base   
+       - CF: center field   
+       - RF: right field   
+       - LF: left field   
+       - C: catcher   
+       - DH: designated hitter (only in the AL)   
+       - OF: outfielder      
+**`G:`** number of games in which the player appeared (in a given year).   
+**`AB:`** number of official at bats by a batter. (This is plate appearances minus sacrifices, walks, and "hit by pitches".)   
+**`R:`** runs. The number of times a baserunner safely reaches home plate.    
+**`H:`** hits. The number of times a batter hits the ball and reaches a base safely (without the aid of an error.)  
+**`2B:`** number of times a batter hits the ball and reaches second base.  
+**`3B:`** number of times a batter hits the ball and reaches third base.  
+**`HR:`** numer of times a batter hits the ball and gets a home run.  
+**`RBI:`** runs batted in. The number of runs that come from a batter hitting the ball. (If bases are loaded and batter hits a HR, RBI is 4)   
+**`BB:`** walks. Four balls in an bat.  
+**`SO:`** strikeouts. Three strikes during an at bat.  
+**`SB:`** stolen base. Number of times a player has stolen a base.  
+**`CS:`** caught stealing. Number of times a player has gotten out while trying to steal a base.  
+**`AVG:`** batting average. The chance a player has of getting a hit during an at bat.  
+**`OBP:`** on base percentage. The chance a player will get on base during an at bat. How frequently they get on base per plate appearance.  
+**`SLG:`** slugging percent. The same as batting average but it takes into account singles, doubles, triples, and HRs. A higher SLG means a player is more "productive" when hitting.  
+**`OPS:`** on base plus slugging percentage. This is the ability of a player to get on base AND hit for power.  
+**`AO:`** fly outs. Total number of times a batter hit the ball and it was caught in the air, resulting in an out.   
+**`GO:`** ground outs. Number of times a batter has gotten out on a ground ball.   
+**`PA:`** plate appearances.  
+**`NP:`** number of pitches thrown during all of the batter's plate appearances.   
+**`RBIAB:`** runs batted in per at bat.  
+**`HRAB:`** home runs per at bat.  
+**`BABIP:`** batting average on balls in play. When a player makes contact with the ball, what's the chance they'll get a hit? This does not account for strikeouts (because the ball is not put into play).  
+**`NPPA:`** number of pitches per plate appearance.  
+**`NPAB:`** number of pitches per at bat.   
+**`SOAB:`** number of strikeouts per at bat.   
+
+
+
+###**Questions we wanted to answer:**  
+
+What do the batting average and OPS look like for all active players?  
+Which position has the best batting average?  
+What stats have strong correlations to one another?  
+Does getting more pitches in an at Bat increase the odds of hitting a homerun?  
+Which position has the best batting average?  
+What teams have the best batting averages?  
+How did switching teams affect Albert Pujol's stats?  
+Why is Mike Trout considered such a well-rounded player (possibly the greatest of all time)?  
+Do Homerun hitters have higher Strike Out percentages?  
+What makes the Yankees and Red Sox such a good rivalry?  
+Does the average number of pitches in an at-bat correlate with batting average? Does it correlate with HRs?  
+Where does Buster Posey fall in terms of average BABIP?  
+Which teams hit the most homeruns?  
+Where are the stadiums of the 30 MLB teams?  
+
+
+
+##**Obtaining and Cleaning the Dataset**
+
+Originally, we spent a large amount of time trying to scrape the data from the website using the SelectorGadget. After running into issues with expanding tables on the page, we decided to simply create an excel spreadsheet of the data, which we named imported and named the dataframe "dat". To clean the data we removed the * before player names, as well as deleted the columns Player2 and Player3, which were just repeating the same info as Player, a few variables were changed from characters to numberic. In order to answer some of our questions, we created a few variables by mutating existing columns. The variables created were: RBIAB, HRAB, BABIP, NP, NPPA, NPAB, and SOAB. 
+
+```{r}
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(plotly)
+dat <- read_excel("ALL.xlsx")
+dat <- select(dat, -Player2, -Player3)
+
+  dat <- mutate(dat, RBIAB = RBI / AB)
+  dat$RBIAB <- round(dat$RBIAB, digits = 3)
+  ##Runs batted in per at bat^
+  dat <- mutate(dat, HRAB = HR / AB) 
+  dat$HRAB <- round(dat$HRAB, digits = 3)
+  ##Home Runs per at bat^
+  dat <- mutate(dat, BABIP = (H - HR) / (AB - SO - HR + SF))
+  dat$BABIP <- round(dat$BABIP, digits = 3)
+  ##Batting Average on Balls in Play^
+  dat$NP <- as.numeric(dat$NP) ##Cleaning the Data, changing column from character to Number
+  dat <- mutate(dat, NPPA = NP / PA)
+  dat$NPPA <- round(dat$NPPA, digits = 3)
+  ##Number of pitches per plate appearance^
+  dat <- mutate(dat, NPAB = NP / AB)
+  dat$NPAB <- round(dat$NPAB, digits = 3)
+  ##Number of Pitches per At bat per at bat^
+  dat <- mutate(dat, SOAB = SO / AB)
+  dat$SOAB <- round(dat$SOAB, digits = 3)
+  ##Number of StrikeOuts per at bat^
+```
+##**The Exploratory Analysis**
+----going through each of the graphs we made, etc. 
+
+We began by getting some simple visualizations of the basic stats in our data: 
+```{r}
+g <- ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
+ggplotly(g)
+```
+This shows us the batting averages for all active players (with each data point being a certain player in a certain year). If an AVG is .3, that means the player has a 30% chance of getting a hit. For reference, 350 is a very good batting average. The outliers are players who played just a few games in a season, and happened to play really well during those games (thus making them very high outliers). This alone does not tell us how good a player is as different players have different goals, some hit to get on base, some hit with the goals of HRs, etc.   
+
+
+h <- ggplot(dat, aes(x = OPS)) + geom_histogram(binwidth = .005,color="Black", fill="light green") + xlab("On-Base + Slugging Percentage (OPS)") + ggtitle("Histogram of OPS") + ylab("Count")
+
+ggplotly(g)
+ggplotly(h)
+
+
+Steps for data wrangling and visualization
+Answers to the questions raised
+Conclusion
+
+
+```{r}
+g <- ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
+
+
+h <- ggplot(dat, aes(x = OPS)) + geom_histogram(binwidth = .005,color="Black", fill="light green") + xlab("On-Base + Slugging Percentage (OPS)") + ggtitle("Histogram of OPS") + ylab("Count")
+
+ggplotly(g)
+ggplotly(h)
+
+correlationMatrix3 <- select(dat, SLG, RBIAB)
+cor(correlationMatrix3)
+
+j <- ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point(color = 'coral2') + geom_smooth(method='lm',formula=y~x) + xlab("RBI per At bat") + ggtitle("Relationship between Slugging Percentage and RBI's per At Bat") + ylab("Slugging Percentage") + annotate("Text", .325, .55, label = "      R = .796 \n R^2 = .634")
+ggplotly(j)
+
+correlationMatrix3 <- select(dat, RBI, SLG)
+cor(correlationMatrix3)
+```
+
+
+
+
+
+
+The exploratory analysis
+Steps for data wrangling and visualization
+Answers to the questions raised
+Conclusion

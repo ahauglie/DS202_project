@@ -30,6 +30,57 @@ http://mlb.mlb.com/stats/sortable.jsp#elem=%5Bobject+Object%5D&tab_level=child&c
 
 This dataset has hitting stats for all active players that have at least 3.1 plate appearances per team game played. These are the players that are starting almost every game for each team and getting the most at-bats in the league. So basically, these are the starting/regular players of each of the 30 MLB teams. In this data you can see player positions, batting averages, RBIs, and home runs, as well as many other stats for each player. 
 
+```{r}
+library(readxl)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(plotly)
+dat <- read_excel("ALL.xlsx")
+dat <- select(dat, -Player2, -Player3)
+```
+Create Variables we need
+```{r}
+  dat <- mutate(dat, RBIAB = RBI / AB)
+  dat$RBIAB <- round(dat$RBIAB, digits = 3)
+  ##Runs batted in per at bat^
+  dat <- mutate(dat, HRAB = HR / AB) 
+  dat$HRAB <- round(dat$HRAB, digits = 3)
+  ##Home Runs per at bat^
+  dat <- mutate(dat, BABIP = (H - HR) / (AB - SO - HR + SF))
+  dat$BABIP <- round(dat$BABIP, digits = 3)
+  ##Batting Average on Balls in Play^
+  dat$NP <- as.numeric(dat$NP) ##Cleaning the Data, changing column from character to Number
+  dat <- mutate(dat, NPPA = NP / PA)
+  dat$NPPA <- round(dat$NPPA, digits = 3)
+  ##Number of pitches per plate appearance^
+  dat <- mutate(dat, NPAB = NP / AB)
+  dat$NPAB <- round(dat$NPAB, digits = 3)
+  ##Number of Pitches per At bat per at bat^
+  dat <- mutate(dat, SOAB = SO / AB)
+  dat$SOAB <- round(dat$SOAB, digits = 3)
+  ##Number of StrikeOuts per at bat^
+```
+
+Visualize the Data
+```{r}
+g <- ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
+
+
+h <- ggplot(dat, aes(x = OPS)) + geom_histogram(binwidth = .005,color="Black", fill="light green") + xlab("On-Base + Slugging Percentage (OPS)") + ggtitle("Histogram of OPS") + ylab("Count")
+
+ggplotly(g)
+ggplotly(h)
+
+correlationMatrix3 <- select(dat, SLG, RBIAB)
+cor(correlationMatrix3)
+
+j <- ggplot(dat, aes(x = RBIAB, y = SLG)) + geom_point(color = 'coral2') + geom_smooth(method='lm',formula=y~x) + xlab("RBI per At bat") + ggtitle("Relationship between Slugging Percentage and RBI's per At Bat") + ylab("Slugging Percentage") + annotate("Text", .325, .55, label = "      R = .796 \n R^2 = .634")
+ggplotly(j)
+
+correlationMatrix3 <- select(dat, RBI, SLG)
+cor(correlationMatrix3)
+
 
 **Exploratory Analysis Plan**
 
