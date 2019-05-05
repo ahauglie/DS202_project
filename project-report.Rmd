@@ -51,6 +51,7 @@ Our data came from [MLB.com](http:://mlb.mlb.com/stats), which has MLB player st
 **`OBP:`** on base percentage. The chance a player will get on base during an at bat. How frequently they get on base per plate appearance.  
 **`SLG:`** slugging percent. The same as batting average but it takes into account singles, doubles, triples, and HRs. A higher SLG means a player is more "productive" when hitting.  
 **`OPS:`** on base plus slugging percentage. This is the ability of a player to get on base AND hit for power.  
+**`SF:`** number of times a runner tags up and scores after a batter's fly out.   
 **`AO:`** fly outs. Total number of times a batter hit the ball and it was caught in the air, resulting in an out.   
 **`GO:`** ground outs. Number of times a batter has gotten out on a ground ball.   
 **`PA:`** plate appearances.  
@@ -124,16 +125,70 @@ We began by getting some simple visualizations of the basic stats in our data:
 g <- ggplot(dat, aes(x = AVG)) + geom_histogram(binwidth = .002,color="Black", fill="light blue") + xlab("Batting Average") + ggtitle("Histogram of Batting Average") + ylab("Count")
 ggplotly(g)
 ```
+**What do the batting average and OPS look like for all active players?**   
+
 This shows us the batting averages for all active players (with each data point being a certain player in a certain year). If an AVG is .300 (or 300), that means the player has a 30% chance of getting a hit. For reference, 350 is a very good batting average. The outliers are players who played just a few games in a season, and happened to play really well during those games (thus making them very high outliers). This alone does not tell us how good a player is as different players have different goals, some hit to get on base, some hit with the goals of HRs, etc. The distribution would be bell shaped if worse-ranked players were also included (players who have AVGs less than .25). Since our dataset only includes player with at least 3.1 plate appearances per game, it would not include players with AVGs less than .25 because they would get pulled for not hitting well and therefore would not get to 3.1 plate appearances.     
 
 Both batting average and OPS are bell-shaped for active players. 
 
 
+**Which position has the best batting average?**   
+We then wanted to look at which position had the best batting average. Our assumption was the Designated Hitters would have the highest AVG, considering their only job is to hit. However, when we took a look at the data we found very surprising results. 
+```{r, echo=FALSE}
+dat2 <- dat
+dat2%>%
+  select(Pos, AVG) %>%
+  mutate(AVG = ifelse(AVG == -9999, NA, AVG)) %>%
+  group_by(Pos) %>%
+  mutate(MEANAVG = mean(AVG, na.rm = T)) -> dat2
+h<- ggplot(dat2, aes(x = AVG)) + geom_histogram(binwidth = .002,color="goldenrod2") + xlab("Batting Average") + ggtitle("Histogram of Batting Average by Position") + ylab("Count") + facet_wrap(~Pos) + geom_vline(aes(xintercept = MEANAVG))
+ggplotly(h)
 
+
+library(knitr)
+library(kableExtra)
+dat3 <- select(dat2, -AVG)
+dat3 <- distinct(dat3)  #ROUND TO 3 digits
+dat3$MEANAVG <- round(dat3$MEANAVG, digits = 3)
+
+gh<- head(dat3, 11)
+kable(gh) %>% kable_styling(bootstrap_options = c("striped", "hover"))%>% row_spec(9, bold = T, color = "white", background = "red") %>% row_spec(1, bold = T, color = "white", background = "green")
+```
+We found that Designated Hitters actually have the WORST batting averages. This could possibly be because we have less data for DH since they're only in the American League. If we had data for ALL players in the MLB, not just the ones with 3.1+ plate appearances, we would see a different story, averages for all the positions would be much closer to one another and DH would be among the positions with the higher batting averages. We think that our data may show them as the worst hitters because most of the players who are DH's are older players who are put in this position because they're not very good at fielding anymore. Generally, the best players are going to bat and play the field.   
+
+
+**What stats have strong correlations to one another?**  
+To find what stats have strong correlations to one another we created a correlation matrix using several of the variables in our data and produced a heatmap to better visualize the relationships.  
+```{r, include=FALSE}
+library("Hmisc")
+library(corrplot)
+library(plotly)
+cordata <- select(dat, AVG, OBP, SLG, BABIP, OPS, HR, AO, SO, RBI, BB, XBH, NPPA, SB)
+cordata <- cor(cordata, use = "complete.obs")
+cordata.rcorr = rcorr(as.matrix(cordata))
+cordata.rcorr
+palette = colorRampPalette(c("blue", "yellow", "red")) (20)
+```
 
 ```{r, echo=FALSE}
+corrplot(cordata, col = palette) #dot graph
+```   
+We started by graphing a bunch of scatterplots, going through variables two at a time to see their relationships, until we realized we could just use a correlation matrix and see all the stats at the same time. As you can see, there is a lot of red, and not a lot of green/grey. This is because most hitting stats in baseball are positive towards the hitter and therefore positive numbers. The only 2 stats that are inverses are AO and SO (Fly-Outs and Strike-Outs), and this is shown by these being the only grey points on the matrix. The strongest inverse is seen with Fly-Outs and BABIP. This makes sense as BABIP only takes into account balls that are in play, so if a ball is caught in the air and there is an out, the ball is not put into play. You can see a lot of Very Strong correlations, because a lot of the stats measure very similar things, for example: OBP and AVG.   
 
-```
+
+Does getting more pitches in an at Bat increase the odds of hitting a homerun?  
+Which position has the best batting average?  
+What teams have the best batting averages?  
+How did switching teams affect Albert Pujol's stats?  
+Why is Mike Trout considered such a well-rounded player (possibly the greatest of all time)?  
+Do Homerun hitters have higher Strike Out percentages?  
+What makes the Yankees and Red Sox such a good rivalry?  
+Does the average number of pitches in an at-bat correlate with batting average? Does it correlate with HRs?  
+Where does Buster Posey fall in terms of average BABIP?  
+Which teams hit the most homeruns?  
+Where are the stadiums of the 30 MLB teams?
+
+
 Steps for data wrangling and visualization
 Answers to the questions raised
 Conclusion
