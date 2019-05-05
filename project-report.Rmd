@@ -173,22 +173,203 @@ palette = colorRampPalette(c("blue", "yellow", "red")) (20)
 ```{r, echo=FALSE}
 corrplot(cordata, col = palette) #dot graph
 ```   
+   
+   
 We started by graphing a bunch of scatterplots, going through variables two at a time to see their relationships, until we realized we could just use a correlation matrix and see all the stats at the same time. As you can see, there is a lot of red, and not a lot of green/grey. This is because most hitting stats in baseball are positive towards the hitter and therefore positive numbers. The only 2 stats that are inverses are AO and SO (Fly-Outs and Strike-Outs), and this is shown by these being the only grey points on the matrix. The strongest inverse is seen with Fly-Outs and BABIP. This makes sense as BABIP only takes into account balls that are in play, so if a ball is caught in the air and there is an out, the ball is not put into play. You can see a lot of Very Strong correlations, because a lot of the stats measure very similar things, for example: OBP and AVG.   
 
+  
+  
+**Does getting more pitches in an at Bat increase the odds of hitting a homerun?**   
+After using a scatterplot to visualize the realtionship between HRPA and NPPA and finding the R^2, we were able to conclude that there is no real evidence of a correlation between the two.   
 
-Does getting more pitches in an at Bat increase the odds of hitting a homerun?  
-Which position has the best batting average?  
-What teams have the best batting averages?  
-How did switching teams affect Albert Pujol's stats?  
-Why is Mike Trout considered such a well-rounded player (possibly the greatest of all time)?  
-Do Homerun hitters have higher Strike Out percentages?  
-What makes the Yankees and Red Sox such a good rivalry?  
-Does the average number of pitches in an at-bat correlate with batting average? Does it correlate with HRs?  
-Where does Buster Posey fall in terms of average BABIP?  
-Which teams hit the most homeruns?  
-Where are the stadiums of the 30 MLB teams?
+   
+   
+   
+**What teams have the best batting averages?**  
+   
+```{r, echo=FALSE}
+dat5 <- dat
+dat5%>%
+  select(Team, AVG) %>%
+  mutate(AVG = ifelse(AVG == -9999, NA, AVG)) %>%
+  group_by(Team) %>%
+  mutate(MEANAVG = mean(AVG, na.rm = T)) -> dat5
+
+dat6 <- select(dat5, -AVG)
+dat6 <- distinct(dat6)
+dat6$MEANAVG <- round(dat6$MEANAVG, digits = 3)
+dat6 <- dat6[order(-dat6$MEANAVG, dat6$Team) , ]
+best <- head(dat6, 5)
+kable(best) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left")
+```
+We found that the teams with the top 5 best batting averages in our dataset were (in order): The Miami Marlins, The St. Louis Cardnials, The Washington Nationals, The Colorado Rockies, and The Detroit Tigers. Upon looking at the players for these teams, we saw that Albert Pujols holds 2 of the top 10 rankings in our data (so his batting average was super high in these years) and was playing for the Cardinals at the time, which is a large contributing factor as to why they have one of the best team batting averages. This leads us into our next question...    
+   
+   
+
+**How did switching teams affect Albert Pujols's stats?**  
+```{r, echo=FALSE}
+Albert <- dat[grepl("Pujols,A", dat$Player),]
+
+a <- ggplot(Albert, aes(x = Year)) +
+  geom_line(aes( y = HR), color = "blue", size=1.25) +
+  geom_line(aes( y = H), color = "red", size=1.25) + 
+  geom_line(aes( y = BB), color = "purple", size=1.25) + 
+  geom_line(aes( y = RBI), color = "darkgoldenrod4", size=1.25) +
+  geom_line(aes( y = XBH), color = "Dark Green", size=1.25) +
+  ylab("Totals By Category") + 
+  xlab("Year") + 
+  ggtitle("Albert Pujols's Career Mapped by Year") +
+  geom_vline(xintercept = 2010, color = "Black") + 
+  annotate("Text", 2011.8, 140, label = "Left ALL his fans \nand headed to the Angels. \nAll Stats Plummit.", size=3) 
+ ggplotly(a)
+
+```   
+From the graph we can see that when Pujols's left the Cardinals in 2010 and joined the Angels, his stats severly suffered. We mapped Albert Pujols’s career by year, looking at 5 different stats. Since Pujols is known for being a top Home run hitter in the last 20 years, we needed to include Home Runs, RBI’s,  Hits, and Extra Base Hits. With him being such a solid hitter, pitchers were scared to pitch to him, and would end up walking him, so we look at walks as well. The black vertical line on the graph represents the end of the 2010 season, when he left St. Louis and went to the Angels. This was quite interesting as you can see a large drop off in all of his stats. This is not uncommon, a small percentage of star athletes leave their home city and just don’t do as well. This was interesting to see using a graph, as it was all the rage in the media in 2011 and 2012 when Albert Pujols was not performing. Even if you take into account him just getting older, there's still a noticable drop in his performance after he switched teams. We think a big part of this drop could be because he had played his whole career in his hometown of St. Louis, and when he switched teams many of his loyal fans were angry and he didn't have the same support and love as he did with the Cardnials.   
+   
+   
+**Why is Mike Trout considered such a well-rounded player (possibly the greatest of all time)?**   
+```{r, echo=FALSE}
+Trout <- dat[grepl("Trout,M", dat$Player),]
+Trout <- Trout[-c(1),]
+b <- ggplot(Trout, aes(x = Year)) +
+  geom_line(aes( y = HR), color = "blue", size=1.25) +
+  geom_line(aes( y = SB), color = "red", size=1.25) + 
+  geom_line(aes( y = BB), color = "purple", size=1.25) + 
+  geom_line(aes( y = RBI), color = "darkgoldenrod3", size=1.25) +
+  geom_line(aes( y = XBH), color = "Dark Green", size=1.25) +
+  ylab("Totals By Category") + 
+  xlab("Year") + 
+  ggtitle("Mike Trout's Career Mapped by Year") +
+  geom_vline(xintercept = 2017, color = "Black", , size=1.25)
+ggplotly(b)
+```   
+   
+Mike Trout is currently the best baseball player in the entire world, and some people think that he will be considered the best player that has ever played the game. Just like with Albert Pujols, pitchers are scared to pitch to him, and you can see he accumulates a lot of walks each season. We chose to look at Stolen Bases as well with Trout, as he is known to be fast, unlike Pujols who is quite slow. The vertical black line in this case represents 2017. In 2017 he had a thumb injury which caused him to miss a third of the season, Trout played only 114 games out of 162, missing 48. In both 2016 and 2018, trout played the majority of the season not missing more than 20 games each year. You can see with the bottom three lines, (HR, SB, and XBH) that he came back after being injured in 2017 and had an incredible season, almost matching his prior stats and even hitting more home runs than the year before. We would like to think of this as a testament as to what kind of a player Mike Trout is, the stats are proof of his greatness.   
+   
+   
+**Do Homerun hitters have higher Strike Out percentages?**  
+When we looked at the correlation between Home Runs and Strikeouts per at bat, the R^2 was only .162, which would indicate to us that our data does not show a relationship between homerun hitters having higher strike out percentages.   
+   
+   
+   
+**What makes the Yankees and Red Sox such a good rivalry?**  
+```{r, echo=FALSE, message=FALSE}
+RedSox <- dat[grepl("BOS", dat$Team),]
+Yankees <- dat[grepl("NYY", dat$Team),]
+Rivals <- full_join(RedSox, Yankees)
+
+jColors = c("#BD3039", "#0C2340")
+ggplot(Rivals, aes(x = HR, y = AVG)) + geom_boxplot() + facet_wrap(~Team) + xlab("Average Home Runs Hit in a Season") + ylab("Batting Average") + ggtitle("Rivaly Between the Boston Red Sox and New York Yankees") + aes(fill = Team) + scale_fill_manual(values = jColors)
+```   
+   
+When trying to answer our question about why the Red Sox and Yankees rivalry is so intense, we wanted to see if there was a difference in playing styles. What made us decide on comparing batting average and average number of homeruns each player hits on each team, was Sam's live-long love of watching and playing baseball. The yankees are always thought of as big home run hitters, and the Red Sox are thought to have very consistent solid hitters. So, we wanted to see if this was the case, and when we graphed it, we could see right away that our assumptions were true. The Red Sox have a much higher batting average, and the Yankees hit almost 5 more home runs per player each season. In answering the question, the reason these games are so fun to watch is the different hitting styles each team uses, one with an emphasis on batting average, the other with emphasis on home runs. Because the teams have different strengths, it makes a very close match-up and an exciting rivalry with nail-biting games.   
+   
+   
+**Does the average number of pitches in an at-bat correlate with batting average? Does it correlate with HRs?**  
+For this question we looked at batting average and number of pitches per at bat, this showed no correlation. When we compared home runs and number of pitches per at bat we got a very weak positive correlation, but not enough to draw any conclusions about the two. We chose to include questions in which we found no correlation between variables because these are things we were curious about when looking at our data, and it's important to note that sometimes your findings aren't as fun or noteworthy as you would like. We wanted to include the full story, not just the shocking findings.   
+   
+
+**Where does Buster Posey fall in terms of average BABIP?**   
+```{r, echo=FALSE, message=FALSE}
+Posey <- dat[grepl("Posey,B", dat$Player),]
+MeanBABIPposey <- mean(Posey$BABIP)
+
+ggplot(dat, aes(x = BABIP)) + geom_histogram(color = "black", fill = "white") +
+  geom_vline(xintercept = MeanBABIPposey, color = "Orange", size=1.25) +
+  annotate("Text", .38, 135, label = "Buster Posey's Average BABIP")+geom_vline(aes(xintercept = mean(dat$BABIP)),col='red',size=.5, linetype="dashed")+annotate("Text", .3, 140, label="Mean BABIP", col="red", size=3)+ggtitle("Distribution of MLB Players' BABIP")
+```   
+   
+To answer this question, we created the BABIP (batting avg on balls in play), using the formula: BABIP = (H – HR)/(AB – SO – HR + SF). From this, we wanted to see where Sam's favorite player stood versus the rest of the players in our data, so we created this Histogram. Highlighted in orange (which is the color of the Giants, who he plays for) is Buster Posey’s average BABIP over his career, and you can see that he is above the average of all the players, as he is considered to be one of the best hitting catchers to ever play. This is still an accomplishment for Posey, as he is getting old, but continuing to hit well enough to remain above the average.   
+   
+   
+**Which teams hit the most homeruns?**   
+```{r, echo=FALSE}
+dat7 <- dat
+
+dat7%>%
+  select(Team, HRAB) %>%
+  mutate(HRAB = ifelse(HRAB == -9999, NA, HRAB)) %>%
+  group_by(Team) %>%
+  mutate(MeanHR = mean(HRAB, na.rm = T)) -> dat7
+
+dat8 <- select(dat7, -HRAB)
+dat8 <- distinct(dat8)  #ROUND TO 3 digits
+dat8$MeanHR <- round(dat8$MeanHR, digits = 3)
+
+dat8 <- dat8[order(dat8$MeanHR, decreasing = TRUE),] 
+
+besthr<- head(dat8, 33)
+kable(besthr) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, position = "left") %>% scroll_box(width = "500px", height = "200px")
+```   
+   
+As you can see in the table, the top 5 highest HR hitting teams are: The Toronto Bluejays, The Baltimore Orioles, The Milwaukee Brewers, The Los Angeles Dodgers, and The St. Louis Cardinals. If you remember our question about team batting averages, the Cardinals were in the top 5 there as well, so they have both a high batting average as well as a high number of homeruns hit.   
+   
+   
+**Where are the stadiums of the 30 MLB teams?**
+```{r, echo=FALSE, message=FALSE, fig.keep='last'}
+Stadiums <- read_excel("StadiumLocations.xlsx")
+
+states <- map_data("state")
+base <- ggplot(states, aes(x=long, y=lat))+geom_polygon(aes(group=group))+ggtitle("MLB Teams")+ylab("   ")+xlab("   ")
+base
+
+LAA <- subset(Stadiums, Stadiums$ABB == "LAA")
+SF <- subset(Stadiums, Stadiums$ABB == "SF")
+COL <- subset(Stadiums, Stadiums$ABB == "COL")
+STL <- subset(Stadiums, Stadiums$ABB == "STL")
+ARI <- subset(Stadiums, Stadiums$ABB == "ARI")
+LAD <- subset(Stadiums, Stadiums$ABB == "LAD")
+NYM <- subset(Stadiums, Stadiums$ABB == "NYM")
+PHI <- subset(Stadiums, Stadiums$ABB == "PHI")
+DET <- subset(Stadiums, Stadiums$ABB == "DET")
+BOS <- subset(Stadiums, Stadiums$ABB == "BOS")
+TEX <- subset(Stadiums, Stadiums$ABB == "TEX")
+CIN <- subset(Stadiums, Stadiums$ABB == "CIN")
+KC <- subset(Stadiums, Stadiums$ABB == "KC")
+MIA <- subset(Stadiums, Stadiums$ABB == "MIA")
+MIL <- subset(Stadiums, Stadiums$ABB == "MIL")
+HOU <- subset(Stadiums, Stadiums$ABB == "HOU")
+WSH <- subset(Stadiums, Stadiums$ABB == "WSH")
+OAK <- subset(Stadiums, Stadiums$ABB == "OAK")
+BAL <- subset(Stadiums, Stadiums$ABB == "BAL")
+SD <- subset(Stadiums, Stadiums$ABB == "SD")
+PIT <- subset(Stadiums, Stadiums$ABB == "PIT")
+CLE <- subset(Stadiums, Stadiums$ABB == "CLE")
+TOR <- subset(Stadiums, Stadiums$ABB == "TOR")
+SEA <- subset(Stadiums, Stadiums$ABB == "SEA")
+MIN <- subset(Stadiums, Stadiums$ABB == "MIN")
+TB <- subset(Stadiums, Stadiums$ABB == "TB")
+ATL <- subset(Stadiums, Stadiums$ABB == "ATL")
+CWS <- subset(Stadiums, Stadiums$ABB == "CWS")
+CHC <- subset(Stadiums, Stadiums$ABB == "CHC")
+NYY <- subset(Stadiums, Stadiums$ABB == "NYY")
+
+half1 <- base+geom_point(aes(x=Longitude, y=Latitude),data=LAA, colour="#003263", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=LAA, color="#BA0021", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=SF, colour="#FD5A1E", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=SF, color="#27251F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=COL, colour="#C4CED4", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=COL, color="#33006F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=STL, colour="#0C2340", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=STL, color="#C41E3A", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=ARI, colour="#E3D4AD", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=ARI, color="#A71930", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=LAD, colour="#EF3E42", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=LAD, color="#005A9C", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=NYM, colour="#FF5910", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=NYM, color="#002D72", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=PHI, colour="#002D72", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=PHI, color="#E81828", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=DET, colour="#FA4616", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=DET, color="#0C2340", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=BOS, colour="#0C2340", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=BOS, color="#BD3039", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=TEX, colour="#C0111F", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=TEX, color="#003278", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=CIN, colour="white", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=CIN, color="#C6011F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=KC, colour="#BD9B60", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=KC, color="#004687", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=KC, colour="#BD9B60", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=KC, color="#004687", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=MIA, colour="#FF6600", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=MIA, color="#0077C8", size =5)
+
+whole <- half1 + geom_point(aes(x=Longitude, y=Latitude),data=MIL, colour="#B6922E", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=MIL, color="#0A2351", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=HOU, colour="#EB6E1F", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=HOU, color="#002D62", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=WSH, colour="#14225A", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=WSH, color="#AB0003", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=OAK, colour="#EFB21E", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=OAK, color="#003831", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=BAL, colour="#000000", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=BAL, color="#DF4601", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=SD, colour="#A2AAAD", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=SD, color="#002D62", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=PIT, colour="#FDB827", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=PIT, color="#27251F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=CLE, colour="#E31937", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=CLE, color="#0C2340", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=TOR, colour="#1D2D5C", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=TOR, color="#134A8E", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=SEA, colour="#005C5C", size=7)+geom_point(aes(x=Longitude,y=Latitude),data=SEA,color="#0C2C56", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=MIN, colour="#D31145", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=MIN, color="#002B5C", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=TB, colour="#8FBCE6", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=TB, color="#092C5C", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=ATL, colour="#13274F", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=ATL, color="#CE1141", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=CWS, colour="#C4CED4", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=CWS, color="#27251F", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=CHC, colour="#CC3433", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=CHC, color="#0E3386", size =5)+ geom_point(aes(x=Longitude, y=Latitude),data=NYY, colour="#0C2340", size=7)+geom_point(aes(x=Longitude, y=Latitude),data=NYY, color="red", size =5)
 
 
-Steps for data wrangling and visualization
-Answers to the questions raised
-Conclusion
+library(ggrepel)
+whole+geom_label_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`ABR.`, color="black", size=3, nudge_y = .85,nudge_x = 0, label.padding = unit(.1, "lines"), alpha=.8, segment.size = .25)+geom_text(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Longitude <0 & Longitude> -130), label=Stadiums$`AVG`, color="white", size=1.5, nudge_y = 0,nudge_x=0, alpha=.8, check_overlap = TRUE)
+
+```   
+   
+We added this question after learning how to create choropleth maps, we wanted to see how cool we could make a map of the MLB stadium locations look. The points for each team's stadium are their team colors, which we found the exact hex codes for. We used an excel file with the team's lat and long locations to plot the points on a map. Using ggrepel we labeled the points with the shortened team names, and then included the team's batting averages as well. It took quite a bit of code to create this map but it was enjoyable to learn more involving choropleth maps.   
+   
+   
+
+##**Conclusion**
+
+
+ivaodinv;ajdnfkv;nadflkv
+
+
+###**Team Member Contributions**   
+
+Sam:   
+
+Alicia:   
+
+Sai:   
