@@ -360,6 +360,22 @@ whole+geom_label_repel(aes(x=Longitude, y=Latitude), data=Stadiums %>% filter(Lo
 ```   
    
 We added this question after learning how to create choropleth maps, we wanted to see how cool we could make a map of the MLB stadium locations look. The points for each team's stadium are their team colors, which we found the exact hex codes for. We used an excel file with the team's lat and long locations to plot the points on a map. Using ggrepel we labeled the points with the shortened team names, and then included the team's batting averages as well. It took quite a bit of code to create this map but it was enjoyable to learn more involving choropleth maps.   
+
+
+```{r}
+require("scatterplot3d")
+library(rgl)
+require("RColorBrewer")
+
+plot3d(dat$RBIAB, dat$HRAB, dat$BABIP, xlab = "RBIAB",ylab = "HRAB", zlab = "BABIP", col = "blue") # Visualizing created data 
+
+plot3d(dat$RBIAB,dat5$AVG,dat5$MEANAVG,  xlab = "RBIAB", ylab = "AVG", zlab = "MEANAVG") #Visualization of RBIAB
+
+
+```
+   
+Lastly, we also took at look at the 3d plots and wanted to visually represent some of the statistics in a different way. Plotting the newly aquired variables such as the RBIAB and HRAB gave us a new look on how multiple variables can affect each other. Previously mentioned, we can see that in baseball there tends to be a positive correlation. This observation stands true in adding multiple variables and representing the data in a 3D plot. 
+
    
    
 
@@ -373,7 +389,7 @@ Sam: I started with figuring out what data set we were going to use. Since I hav
 
 Alicia: A majority of the work I did on the project was doing aesthetic things, such as tweaking graphs or creating the powerpoint. I helped Sam write the code when he got stuck on certain bits, and we mostly worked on the project when we were together so we could collaborate and have two heads solving problems rather than just one. I created our slides and helped make our visuals easily understandable with the help of Sam's input. I made the choropleth map of the team locations, which took me quite a while and quite a long bit of code to get it where I wanted it to be. Sam and I wrote out the project report and decided which graphs and charts to include, and then I went through and made sure it was fluid and looked good when knitted.    
 
-Sai:   
+Sai: Tried working on web scraping scrapping to produce data set but was very difficult due to the many elements within the source of the webpage. Worked and finished 3D plotting. 
    
    
 ###**Sources:**
