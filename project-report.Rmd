@@ -361,14 +361,14 @@ We added this question after learning how to create choropleth maps, we wanted t
    
 
 ##**Conclusion**
-   
+In working with this MLB data we had some very interesting findings, got very real hands-on coding experience, and put into practice the data acquisition and exploration skills we had learned in class throughout the semester. It was fun to get to use data we chose ourselves and collaborate on making a meaningful project using the data. Finding out answers to our questions using code we wrote ourselves was satisfying, especially for questions that had surprising answers like "Which position has the best batting average?" or "Did Albert Pujols's stats drop when he switched teams?" Creating visualizations that could tell our story in an easily understandable way was difficult but rewarding and will be a useful skill to have in the future and it's something we will continue to improve upon as we keep working with more data. 
 
 
 ###**Team Member Contributions**   
 
 Sam: I started with figuring out what data set we were going to use. Since I have the most baseball knowledge out of the group, I came up with all the questions that we were going to answer. I then did a large majority of the coding, making the graphs, and answering the questions. I set up the skeleton of the presentation, and explained what Alicia and I were going to say for each graph/slide on the powerpoint. For the project report, I wrote about half of the graph explanations and conclusions, and Alicia put them into this Rmd.      
 
-Alicia: A majority of the work I did on the project was doing aesthetic things, such as tweaking graphs or creating the powerpoint. I helped Sam write the code when he got stuck on certain bits, and we mostly worked on the project when we were together so we could collaborate and have two heads solving problems rather than just one. I created our slides and helped make our visuals easily understandable with the help of Sam's input. I made the choropleth map of the team locations, which took me quite a while and quite a long bit of code to get it where I wanted it to be. Sam and I wrote out the project report and decided which graphs and charts to include, and then I went through and made sure it was fluid.    
+Alicia: A majority of the work I did on the project was doing aesthetic things, such as tweaking graphs or creating the powerpoint. I helped Sam write the code when he got stuck on certain bits, and we mostly worked on the project when we were together so we could collaborate and have two heads solving problems rather than just one. I created our slides and helped make our visuals easily understandable with the help of Sam's input. I made the choropleth map of the team locations, which took me quite a while and quite a long bit of code to get it where I wanted it to be. Sam and I wrote out the project report and decided which graphs and charts to include, and then I went through and made sure it was fluid and looked good when knitted.    
 
 Sai:   
    
@@ -378,5 +378,5 @@ Sai:
 - http://www.espn.com/fantasy/baseball/flb/story?page=mlbdk2k11babipprimer   
 - http://www.espn.com/mlb/story/_/id/23800260/how-mike-trout-stacks-mlb-greats-first-1000-games   
 - https://www.bostonglobe.com/sports/redsox/2018/04/11/redsox/2S8tJqQlTGrUD3AtsLP56J/story.html   
-- http://mlb.mlb.com/stats/sortable.jsp#elem=%5Bobject+Object%5D&tab_level=child&click_text=Sortable+Player+hitting&game_type='R'&season=2019&season_type=ALL&league_code='MLB'&sectionType=sp&statType=hitting&page=1&ts=1554392691353&split=&playerType=ALL&timeframe=&active_sw='Y'   
+- http://mlb.mlb.com/stats
 - https://teamcolorcodes.com/mlb-color-codes/ 
